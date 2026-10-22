@@ -582,25 +582,31 @@ footer {
   cursor: pointer;
   margin: 10px;
 }
+html, body {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
 /* Mobile Screen Responsive Styles */
 @media screen and (max-width: 768px) {
   .menu-toggle {
-    display: block; /* Mobile par button dikhega */
+    display: block !important;
   }
 
   body {
-    flex-direction: column;
+    flex-direction: column !important;
   }
 
   .sidebar {
-    display: none; /* Default me mobile par sidebar hide rahega */
+    display: none;
     width: 100% !important;
     height: auto !important;
     position: relative !important;
   }
 
-  /* Jab Toggle active hoga tab sidebar dikhega */
   .sidebar.active {
     display: block !important;
   }
@@ -608,6 +614,11 @@ footer {
   .main-content {
     margin-left: 0 !important;
     width: 100% !important;
-    padding: 15px !important;
+    padding: 10px !important;
+    box-sizing: border-box !important;
+  }
+
+  .grid-container, .cards-container, .dashboard-grid {
+    grid-template-columns: 1fr !important;
   }
 }
