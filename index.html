@@ -1,368 +1,1821 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0",user-scalable=no">
-    <title>CampusSaathi AI - Student Portal</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CampusSaathi AI - Your College Life, Our Priority</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- SIDEBAR NAVIGATION -->
-    <aside class="sidebar">
-        <div class="logo-section">
-            <h2>CampusSaathi AI</h2>
-            <p>Your College Life, Our Priority</p>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f5ff',
+              100: '#e0ebff',
+              200: '#c7dafe',
+              300: '#a3c2fd',
+              400: '#739dfb',
+              500: '#3b6ef6',
+              600: '#254bf0',
+              700: '#1d38dd',
+              800: '#1e2eb3',
+              900: '#1e2b8e',
+            },
+            themeGreen: {
+              500: '#006837',
+              600: '#00542c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    .glass-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 1.25rem;
+      box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.03), 0 2px 6px -2px rgba(0, 0, 0, 0.02);
+      transition: all 0.25s ease-in-out;
+    }
+
+    .dark .glass-card {
+      background: #1e293b;
+      border-color: #334155;
+      color: #f8fafc;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .dark .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #475569;
+    }
+
+    /* Active Nav Styling */
+    .nav-link.active {
+      background-color: #e0ebff;
+      color: #254bf0;
+      font-weight: 700;
+    }
+    .dark .nav-link.active {
+      background-color: #1e3a8a;
+      color: #93c5fd;
+    }
+    .nav-link.active i {
+      color: #254bf0;
+    }
+    .dark .nav-link.active i {
+      color: #93c5fd;
+    }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.3; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .mic-pulsing {
+      animation: pulse-ring 1.8s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col custom-scrollbar">
+
+  <!-- TOP HEADER NAVBAR -->
+  <header class="bg-[#1e2b8e] text-white sticky top-0 z-30 shadow-md">
+    <div class="max-w-[1600px] mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
+      
+      <!-- Left Logo & Tagline -->
+      <div class="flex items-center gap-3">
+        <button type="button" onclick="toggleMobileSidebar()" class="lg:hidden text-white p-1.5 hover:bg-white/10 rounded-lg">
+          <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+        <div class="cursor-pointer flex items-center gap-2.5" onclick="switchView('home')">
+          <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center border border-white/20">
+            <i class="fa-solid fa-graduation-cap text-xl text-blue-300"></i>
+          </div>
+          <div>
+            <h1 class="text-base font-extrabold tracking-tight leading-tight">CampusSaathi AI</h1>
+            <p class="text-[10px] text-blue-200 -mt-0.5 hidden sm:block font-medium">Your College Life, Our Priority</p>
+          </div>
         </div>
-        <nav class="nav-menu">
-            <ul>
-                <li class="active" onclick="switchTab('home')"><i class="fa-solid fa-house"></i> Home</li>
-                <li onclick="switchTab('voice')"><i class="fa-solid fa-microphone"></i> Voice Assistant</li>
-                <li onclick="switchTab('scholarship')"><i class="fa-solid fa-award"></i> Scholarship Finder</li>
-                <li onclick="switchTab('attendance')"><i class="fa-solid fa-calendar-check"></i> Attendance Tracker</li>
-                <li onclick="switchTab('fees')"><i class="fa-solid fa-wallet"></i> Fees Reminder</li>
-                <li onclick="switchTab('exam')"><i class="fa-solid fa-calendar-days"></i> Exam Calendar</li>
-                <li onclick="switchTab('assignment')"><i class="fa-solid fa-list-check"></i> Assignment Manager</li>
-                <li onclick="switchTab('timetable')"><i class="fa-solid fa-clock"></i> Timetable Manager</li>
-                <li onclick="switchTab('planner')"><i class="fa-solid fa-brain"></i> AI Study Planner</li>
-                <li onclick="switchTab('chatbot')"><i class="fa-solid fa-robot"></i> CampusSaathi Chatbot</li>
-            </ul>
+      </div>
+
+      <!-- Center Search Bar -->
+      <div class="flex-1 max-w-xl mx-2">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-slate-400 text-sm"></i>
+          <input type="text" id="globalSearchInput" onkeyup="handleGlobalSearch(event)" placeholder="Search features, assignments, exams, or ask AI..." class="w-full pl-9 pr-8 py-1.5 rounded-full text-xs text-slate-800 bg-white shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <button onclick="handleGlobalSearchClick()" class="absolute right-2.5 top-1.5 text-slate-400 hover:text-brand-600 text-xs">
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Controls & User Profile Pill -->
+      <div class="flex items-center gap-2">
+        <!-- Dark Mode Toggle Button -->
+        <button onclick="toggleDarkMode()" class="p-2 rounded-full bg-white/10 hover:bg-white/20 text-blue-200 transition-all text-xs" title="Toggle Light/Dark Theme">
+          <i id="themeIcon" class="fa-solid fa-moon"></i>
+        </button>
+
+        <div class="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-3 py-1 rounded-full border border-white/20 cursor-pointer transition-all" onclick="switchView('settings')">
+          <div id="topUserAvatar" class="w-6 h-6 rounded-full bg-blue-400 text-white text-[11px] font-bold flex items-center justify-center shadow-xs">
+            K
+          </div>
+          <span id="topUserName" class="text-xs font-semibold max-w-[100px] truncate">Kaveri</span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-blue-200"></i>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- AUTHENTICATION MODAL -->
+  <div id="authModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-md hidden p-4">
+    <div class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-3xl shadow-2xl p-6 sm:p-8 max-w-md w-full border border-slate-100 dark:border-slate-700 relative">
+      <div class="text-center mb-6">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#1e2b8e] text-white shadow-lg mb-3">
+          <i class="fa-solid fa-graduation-cap text-2xl"></i>
+        </div>
+        <h2 class="text-2xl font-extrabold text-slate-800 dark:text-white">CampusSaathi AI</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Your College Life, Our Priority</p>
+      </div>
+
+      <div class="flex bg-slate-100 dark:bg-slate-700 p-1 rounded-xl mb-6">
+        <button id="tabLogin" type="button" onclick="switchAuthTab('login')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-slate-800 text-brand-600 dark:text-blue-400 shadow-xs">Sign In</button>
+        <button id="tabRegister" type="button" onclick="switchAuthTab('register')" class="flex-1 py-2 text-xs font-bold rounded-lg text-slate-600 dark:text-slate-300">Create Account</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="space-y-4" onsubmit="handleAuthSubmit(event, 'login')">
+        <div>
+          <label class="block text-[11px] font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Your Name</label>
+          <input type="text" id="loginName" placeholder="e.g. Kaveri Kumari" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Email Address</label>
+          <input type="email" id="loginEmail" required placeholder="student@college.edu" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+        </div>
+        <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-md transition-all">Sign In</button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" class="space-y-4 hidden" onsubmit="handleAuthSubmit(event, 'register')">
+        <div>
+          <label class="block text-[11px] font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Your Name</label>
+          <input type="text" id="regName" required placeholder="e.g. Kaveri Kumari" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Email Address</label>
+          <input type="email" id="regEmail" required placeholder="student@college.edu" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+        </div>
+        <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-md transition-all">Create Account</button>
+      </form>
+
+      <div class="mt-4 text-center">
+        <button type="button" onclick="loginAsGuest()" class="text-xs text-brand-600 dark:text-blue-400 font-bold hover:underline">
+          ⚡ One-Click Login as Student
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DIALOG FOR DETAILS (Reusable) -->
+  <div id="generalModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs hidden p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-6 max-w-lg w-full border border-slate-100 dark:border-slate-700 relative space-y-4">
+      <div class="flex justify-between items-center pb-2 border-b border-slate-100 dark:border-slate-700">
+        <h3 id="modalTitle" class="text-base font-bold text-slate-800 dark:text-white">Modal Header</h3>
+        <button onclick="closeGeneralModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="modalBody" class="text-xs text-slate-600 dark:text-slate-300 space-y-3">
+        <!-- Dynamic content -->
+      </div>
+      <div id="modalFooter" class="flex justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-700">
+        <button onclick="closeGeneralModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN WRAPPER CONTAINER -->
+  <div id="appLayout" class="flex-1 flex max-w-[1600px] w-full mx-auto relative overflow-hidden">
+    
+    <!-- MOBILE OVERLAY BACKDROP -->
+    <div id="sidebarOverlay" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-30 lg:hidden hidden"></div>
+
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col justify-between p-4 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 shrink-0">
+      <div class="space-y-6">
+        <!-- Sidebar Header Title -->
+        <div class="px-2 pt-1 flex items-center justify-between">
+          <span class="text-xs font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">Navigation Menu</span>
+          <button onclick="toggleMobileSidebar()" class="lg:hidden text-slate-400"><i class="fa-solid fa-xmark text-base"></i></button>
+        </div>
+
+        <!-- Links List -->
+        <nav class="space-y-1">
+          <button onclick="switchView('home')" id="nav-home" class="nav-link active flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+            <i class="fa-solid fa-house text-base w-5 text-slate-400"></i>
+            <span>Home</span>
+          </button>
+
+          <button onclick="switchView('voice-assistant')" id="nav-voice-assistant" class="nav-link flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+            <i class="fa-solid fa-microphone text-base w-5 text-slate-400"></i>
+            <span>Voice Assistant</span>
+          </button>
+
+          <button onclick="switchView('scholarship')" id="nav-scholarship" class="nav-link flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+            <i class="fa-solid fa-award text-base w-5 text-slate-400"></i>
+            <span>Scholarship Finder</span>
+          </button>
+
+          <button onclick="switchView('attendance')" id="nav-attendance" class="nav-link flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+            <i class="fa-solid fa-calendar-check text-base w-5 text-slate-400"></i>
+            <span>Attendance Tracker</span>
+          </button>
+
+          <button onclick="switchView('fees')" id="nav-fees" class="nav-link flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+            <i class="fa-solid fa-wallet text-base w-5 text-slate-400"></i>
+            <span>Fees Reminder</span>
+          </button>
+
+          <button onclick="switchView('exam-calendar')" id="nav-exam-calendar" class="nav-link flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+            <i class="fa-solid fa-calendar-days text-base w-5 text-slate-400"></i>
+            <span>Exam Calendar</span>
+          </button>
+
+          <button onclick="switchView('assignments')" id="nav-assignments" class="nav-link flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+            <i class="fa-solid fa-list-check text-base w-5 text-slate-400"></i>
+            <span>Assignment Manager</span>
+          </button>
+
+          <button onclick="switchView('timetable')" id="nav-timetable" class="nav-link flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+            <i class="fa-solid fa-clock text-base w-5 text-slate-400"></i>
+            <span>Timetable Manager</span>
+          </button>
+
+          <button onclick="switchView('ai-planner')" id="nav-ai-planner" class="nav-link flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+            <i class="fa-solid fa-brain text-base w-5 text-slate-400"></i>
+            <span>AI Study Planner</span>
+          </button>
+
+          <button onclick="switchView('chatbot')" id="nav-chatbot" class="nav-link flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+            <i class="fa-solid fa-robot text-base w-5 text-slate-400"></i>
+            <span>CampusSaathi Chatbot</span>
+          </button>
         </nav>
-        <div class="sidebar-footer">
-            <a href="#" onclick="alert('Settings opened!')"><i class="fa-solid fa-gear"></i> Settings</a>
-            <a href="#" onclick="alert('Logged out successfully!')" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-        </div>
+      </div>
+
+      <!-- Bottom Settings & Logout Section -->
+      <div class="pt-4 border-t border-slate-200 dark:border-slate-700 space-y-1">
+        <button onclick="switchView('settings')" id="nav-settings" class="nav-link flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+          <i class="fa-solid fa-gear text-base w-5 text-slate-400"></i>
+          <span>Settings</span>
+        </button>
+
+        <button type="button" onclick="handleLogout()" class="flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-xs text-rose-600 font-bold hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-all">
+          <i class="fa-solid fa-arrow-right-from-bracket text-base w-5 text-rose-500"></i>
+          <span>Logout</span>
+        </button>
+      </div>
     </aside>
 
-    <!-- MAIN DASHBOARD CONTAINER -->
-    <div class="main-container">
-        
-        <!-- TOP HEADER -->
-        <header class="top-header">
-            <div class="search-bar">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Search features, ask anything..." id="global-search" onkeyup="filterCards()">
-            </div>
-            <div class="user-dropdown">
-                <span class="avatar-circle"><i class="fa-solid fa-user"></i> Student <i class="fa-solid fa-chevron-down"></i></span>
-            </div>
-        </header>
+    <!-- CENTER & RIGHT MAIN WORKSPACE AREA -->
+    <main class="flex-1 flex flex-col lg:flex-row overflow-y-auto p-4 sm:p-6 gap-6 custom-scrollbar">
+      
+      <!-- MIDDLE MAIN CONTENT PANEL -->
+      <div class="flex-1 space-y-6">
 
-        <div class="dashboard-layout">
-            
-            <!-- CENTRAL CONTENT AREA -->
-            <div class="content-area">
-                
-                <!-- HOME / DASHBOARD VIEW -->
-                <div id="home-view" class="view-panel active-panel">
-                    
-                    <!-- Welcome Banner -->
-                    <div class="welcome-banner">
-                        <div class="banner-text">
-                            <span class="hello-tag">Hello, Student! 👋</span>
-                            <h1>Welcome to <span>CampusSaathi AI</span></h1>
-                            <p>Your smart college assistant, helping you manage your studies, fees, exams and more.</p>
-                            <div class="banner-pills">
-                                <span class="pill">⚡ Smart</span>
-                                <span class="pill">❤️ Easy</span>
-                                <span class="pill">🛡️ Always With You</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Feature Cards Grid (Exact 9 Cards) -->
-                    <div class="cards-grid" id="cards-container">
-                        
-                        <!-- Card 1: Voice Assistant -->
-                        <div class="feature-card" onclick="switchTab('voice')">
-                            <div class="card-icon-title">
-                                <div class="icon-box bg-purple"><i class="fa-solid fa-microphone-lines"></i></div>
-                                <h3>Voice Assistant</h3>
-                            </div>
-                            <p>Hindi & English mein sawal poochhein</p>
-                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-                        </div>
-
-                        <!-- Card 2: Scholarship Finder -->
-                        <div class="feature-card" onclick="switchTab('scholarship')">
-                            <div class="card-icon-title">
-                                <div class="icon-box bg-orange"><i class="fa-solid fa-graduation-cap"></i></div>
-                                <h3>Scholarship Finder</h3>
-                            </div>
-                            <p>Apni eligibility aur opportunities check karein</p>
-                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-                        </div>
-
-                        <!-- Card 3: Attendance Tracker -->
-                        <div class="feature-card" onclick="switchTab('attendance')">
-                            <div class="card-icon-title">
-                                <div class="icon-box bg-blue"><i class="fa-solid fa-calculator"></i></div>
-                                <h3>Attendance Tracker</h3>
-                            </div>
-                            <p>Apni attendance calculate karein</p>
-                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-                        </div>
-
-                        <!-- Card 4: Fees Reminder -->
-                        <div class="feature-card" onclick="switchTab('fees')">
-                            <div class="card-icon-title">
-                                <div class="icon-box bg-yellow"><i class="fa-solid fa-indian-rupee-sign"></i></div>
-                                <h3>Fees Reminder</h3>
-                            </div>
-                            <p>Total aur paid fees check karein</p>
-                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-                        </div>
-
-                        <!-- Card 5: Exam Calendar -->
-                        <div class="feature-card" onclick="switchTab('exam')">
-                            <div class="card-icon-title">
-                                <div class="icon-box bg-pink"><i class="fa-solid fa-calendar-days"></i></div>
-                                <h3>Exam Calendar</h3>
-                            </div>
-                            <p>Exam dates aur schedule dekhein</p>
-                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-                        </div>
-
-                        <!-- Card 6: Assignment Manager -->
-                        <div class="feature-card" onclick="switchTab('assignment')">
-                            <div class="card-icon-title">
-                                <div class="icon-box bg-teal"><i class="fa-solid fa-file-lines"></i></div>
-                                <h3>Assignment Manager</h3>
-                            </div>
-                            <p>Assignments add aur manage karein</p>
-                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-                        </div>
-
-                        <!-- Card 7: Timetable Manager -->
-                        <div class="feature-card" onclick="switchTab('timetable')">
-                            <div class="card-icon-title">
-                                <div class="icon-box bg-purple"><i class="fa-solid fa-clock"></i></div>
-                                <h3>Timetable Manager</h3>
-                            </div>
-                            <p>Class timetable dekhein aur manage karein</p>
-                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-                        </div>
-
-                        <!-- Card 8: AI Study Planner -->
-                        <div class="feature-card" onclick="switchTab('planner')">
-                            <div class="card-icon-title">
-                                <div class="icon-box bg-blue"><i class="fa-solid fa-brain"></i></div>
-                                <h3>AI Study Planner</h3>
-                            </div>
-                            <p>Apne subjects ke hisaab se study plan banayein</p>
-                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-                        </div>
-
-                        <!-- Card 9: CampusSaathi Chatbot -->
-                        <div class="feature-card" onclick="switchTab('chatbot')">
-                            <div class="card-icon-title">
-                                <div class="icon-box bg-indigo"><i class="fa-solid fa-robot"></i></div>
-                                <h3>CampusSaathi Chatbot</h3>
-                            </div>
-                            <p>College-related sawalon ke jawab paayein</p>
-                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
-                        </div>
-
-                    </div>
-
-                    <!-- Bottom Ask CampusSaathi AI Input Bar -->
-                    <div class="bottom-ai-bar">
-                        <h3>🤖 Ask CampusSaathi AI</h3>
-                        <div class="ai-input-wrapper">
-                            <input type="text" id="ai-main-input" placeholder="Type your question here...">
-                            <button onclick="sendAIChatQuery()"><i class="fa-solid fa-paper-plane"></i></button>
-                        </div>
-                        <div class="suggestion-chips">
-                            <span>Try asking:</span>
-                            <button onclick="quickAsk('Scholarship eligibility?')">Scholarship eligibility?</button>
-                            <button onclick="quickAsk('Next exam?')">Next exam?</button>
-                            <button onclick="quickAsk('Attendance?')">Attendance?</button>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- DEDICATED FEATURE PANELS -->
-                <div id="voice-view" class="view-panel">
-                    <h2><i class="fa-solid fa-microphone-lines"></i> Voice Assistant</h2>
-                    <p>Speak your query in Hindi or English:</p>
-                    <div class="tool-card center-card">
-                        <button class="mic-pulse-btn" onclick="toggleVoiceListening()"><i class="fa-solid fa-microphone" id="mic-icon"></i></button>
-                        <h3 id="voice-status-text">Click mic to start listening...</h3>
-                        <p id="voice-transcript" class="transcript-box">"Aapka jawab yahan dikhega..."</p>
-                    </div>
-                </div>
-
-                <div id="scholarship-view" class="view-panel">
-                    <h2><i class="fa-solid fa-award"></i> Scholarship Finder</h2>
-                    <p>Check your scholarship eligibility based on criteria:</p>
-                    <div class="tool-card">
-                        <label>Enter your CGPA:</label>
-                        <input type="number" id="cgpa-input" value="8.5" step="0.1" max="10">
-                        <button class="action-btn" onclick="checkScholarship()">Check Eligibility</button>
-                        <div id="scholarship-result" class="result-box"></div>
-                    </div>
-                </div>
-
-                <div id="attendance-view" class="view-panel">
-                    <h2><i class="fa-solid fa-calculator"></i> Attendance Tracker & Calculator</h2>
-                    <div class="tool-card">
-                        <div class="form-row">
-                            <label>Classes Attended:</label>
-                            <input type="number" id="attended-classes" value="34">
-                        </div>
-                        <div class="form-row">
-                            <label>Total Classes Conducted:</label>
-                            <input type="number" id="total-classes" value="40">
-                        </div>
-                        <button class="action-btn" onclick="calculateAttendance()">Calculate Percentage</button>
-                        <div id="attendance-result" class="result-box"></div>
-                    </div>
-                </div>
-
-                <div id="fees-view" class="view-panel">
-                    <h2><i class="fa-solid fa-wallet"></i> Fees Reminder & Payment</h2>
-                    <div class="tool-card">
-                        <h3>Semester Tuition Fee</h3>
-                        <p>Total Fee: <strong>₹20,000</strong></p>
-                        <p>Paid Amount: <strong style="color: green;">₹12,000</strong></p>
-                        <p>Due Amount: <strong style="color: red;">₹8,000</strong></p>
-                        <button class="action-btn" onclick="alert('Redirecting to secure payment gateway...')">Pay Remaining ₹8,000 Now</button>
-                    </div>
-                </div>
-
-                <div id="exam-view" class="view-panel">
-                    <h2><i class="fa-solid fa-calendar-days"></i> Exam Calendar</h2>
-                    <div class="tool-card">
-                        <ul class="schedule-list">
-                            <li><strong>Physics Exam</strong> - Nov 10, 2026 (10:00 AM) - Hall A</li>
-                            <li><strong>Maths Exam</strong> - Nov 14, 2026 (02:00 PM) - Lab 2</li>
-                            <li><strong>Data Structures</strong> - Nov 18, 2026 (10:00 AM) - Hall B</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div id="assignment-view" class="view-panel">
-                    <h2><i class="fa-solid fa-file-lines"></i> Assignment Manager</h2>
-                    <div class="tool-card">
-                        <div class="assignment-input-group">
-                            <input type="text" id="new-assignment" placeholder="Enter new assignment title...">
-                            <button class="action-btn" onclick="addAssignment()">Add Task</button>
-                        </div>
-                        <ul id="assignment-list" class="schedule-list">
-                            <li>Maths Assignment (Due in 2 days)</li>
-                            <li>Physics Lab File Submission</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div id="timetable-view" class="view-panel">
-                    <h2><i class="fa-solid fa-clock"></i> Timetable Manager</h2>
-                    <div class="tool-card">
-                        <table class="styled-table">
-                            <tr><th>Day</th><th>9:00 AM</th><th>11:00 AM</th><th>2:00 PM</th></tr>
-                            <tr><td>Monday</td><td>Physics</td><td>Maths</td><td>CS Lab</td></tr>
-                            <tr><td>Tuesday</td><td>Chemistry</td><td>English</td><td>Sports</td></tr>
-                        </table>
-                    </div>
-                </div>
-
-                <div id="planner-view" class="view-panel">
-                    <h2><i class="fa-solid fa-brain"></i> AI Study Planner</h2>
-                    <div class="tool-card">
-                        <label>Select Exam Goal:</label>
-                        <select id="exam-goal">
-                            <option>Mid-Term Exams</option>
-                            <option>End-Term Semester Exams</option>
-                        </select>
-                        <button class="action-btn" onclick="generatePlan()">Generate Study Plan</button>
-                        <div id="plan-result" class="result-box"></div>
-                    </div>
-                </div>
-
-                <div id="chatbot-view" class="view-panel">
-                    <h2><i class="fa-solid fa-robot"></i> CampusSaathi Chatbot</h2>
-                    <div class="tool-card chatbot-card">
-                        <div id="chat-messages" class="chat-messages">
-                            <div class="bot-msg">Hello! Main aapka CampusSaathi AI hoon. Bataiye main aapki kya madad karoon?</div>
-                        </div>
-                        <div class="chat-input-box">
-                            <input type="text" id="chat-user-input" placeholder="Type a message...">
-                            <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- RIGHT SIDEBAR (Quick Stats & Reminders) -->
-            <div class="right-sidebar">
-                
-                <!-- Quick Stats Box -->
-                <div class="stats-box">
-                    <h3><i class="fa-solid fa-chart-pie"></i> Quick Stats</h3>
-                    <div class="stat-item">
-                        <span>Attendance</span>
-                        <strong>85%</strong>
-                    </div>
-                    <div class="stat-item">
-                        <span>Fees Paid</span>
-                        <strong>₹12,000 / ₹20,000</strong>
-                    </div>
-                    <div class="stat-item">
-                        <span>Assignments</span>
-                        <strong style="color: orange;">3 Pending</strong>
-                    </div>
-                    <div class="stat-item">
-                        <span>Upcoming Exams</span>
-                        <strong>2</strong>
-                    </div>
-                </div>
-
-                <!-- Today's Reminder Box -->
-                <div class="reminder-box">
-                    <h3><i class="fa-solid fa-bell"></i> Today's Reminder</h3>
-                    <div class="reminder-item">
-                        <span class="dot green"></span>
-                        <div>
-                            <strong>Maths Assignment</strong>
-                            <p>Due in 2 days</p>
-                        </div>
-                    </div>
-                    <div class="reminder-item">
-                        <span class="dot blue"></span>
-                        <div>
-                            <strong>Physics Exam</strong>
-                            <p>Check your exam schedule</p>
-                        </div>
-                    </div>
-                    <div class="reminder-item">
-                        <span class="dot red"></span>
-                        <div>
-                            <strong>Fee Payment</strong>
-                            <p>Check your due date</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Motivation Box -->
-                <div class="motivation-box">
-                    <h4>Small steps every day lead to big dreams! 💙</h4>
-                    <div class="mountain-graphic"><i class="fa-solid fa-mountain"></i></div>
-                </div>
-
-            </div>
-
+        <!-- DYNAMIC TOP NAVIGATION BAR FOR SUB-PAGES -->
+        <div id="subpageHeader" class="hidden items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
+          <div>
+            <h2 id="subpageTitle" class="text-xl font-bold text-slate-800 dark:text-white">Scholarship Finder</h2>
+            <p id="subpageSubtitle" class="text-xs text-slate-500 dark:text-slate-400">Find government & private scholarships curated for you.</p>
+          </div>
+          <button onclick="switchView('home')" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+          </button>
         </div>
-    </div>
 
-    <!-- Footer Copyright -->
-    <footer>
-        <p>© 2026 CampusSaathi AI. Made with ❤️ for Students</p>
-    </footer>
+        <!-- 1. HOME VIEW -->
+        <div id="view-home" class="view-content space-y-6">
+          
+          <!-- Hero Banner -->
+          <div class="bg-gradient-to-r from-blue-100 via-sky-100 to-indigo-100 dark:from-slate-800 dark:via-indigo-950 dark:to-slate-800 rounded-2xl p-6 border border-blue-200/60 dark:border-slate-700 relative overflow-hidden shadow-xs">
+            <div class="flex items-center gap-2 mb-2">
+              <span id="heroWelcomeBadge" class="text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-100/80 dark:bg-amber-900/40 px-2.5 py-0.5 rounded-full border border-amber-200 dark:border-amber-700">Hello, Kaveri! 👋</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-black text-[#1e2b8e] dark:text-blue-300 mb-2 tracking-tight">Welcome to CampusSaathi AI</h1>
+            <p class="text-xs text-slate-600 dark:text-slate-300 max-w-lg mb-4">Your smart college assistant, helping you manage your studies, fees, exams and more with real-time tracking and voice features.</p>
 
-    <script src="script.js"></script>
+            <div class="flex flex-wrap gap-2 text-[11px] font-bold">
+              <span class="bg-white dark:bg-slate-800 px-3 py-1 rounded-full text-slate-700 dark:text-slate-200 shadow-2xs border border-slate-200 dark:border-slate-700">⚡ 100% Dynamic & Interactive</span>
+              <span class="bg-white dark:bg-slate-800 px-3 py-1 rounded-full text-slate-700 dark:text-slate-200 shadow-2xs border border-slate-200 dark:border-slate-700">❤️ Voice Enabled</span>
+              <span class="bg-white dark:bg-slate-800 px-3 py-1 rounded-full text-slate-700 dark:text-slate-200 shadow-2xs border border-slate-200 dark:border-slate-700">🛡️ Personal Assistant</span>
+            </div>
+          </div>
+
+          <!-- 9 FEATURE MODULE CARDS -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            
+            <!-- Voice Assistant -->
+            <div onclick="switchView('voice-assistant')" class="glass-card p-4 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between h-36 border-l-4 border-l-purple-500">
+              <div>
+                <div class="w-9 h-9 rounded-full bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-300 flex items-center justify-center text-sm mb-2.5">
+                  <i class="fa-solid fa-microphone"></i>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-white">Voice Assistant</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Hindi & English voice query answers with audio reply</p>
+              </div>
+              <div class="flex justify-end">
+                <span class="w-6 h-6 rounded-full bg-blue-50 dark:bg-slate-700 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs group-hover:translate-x-1 transition-transform">➔</span>
+              </div>
+            </div>
+
+            <!-- Scholarship Finder -->
+            <div onclick="switchView('scholarship')" class="glass-card p-4 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between h-36 border-l-4 border-l-emerald-500">
+              <div>
+                <div class="w-9 h-9 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-300 flex items-center justify-center text-sm mb-2.5">
+                  <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-white">Scholarship Finder</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Check eligibility, details and apply online</p>
+              </div>
+              <div class="flex justify-end">
+                <span class="w-6 h-6 rounded-full bg-blue-50 dark:bg-slate-700 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs group-hover:translate-x-1 transition-transform">➔</span>
+              </div>
+            </div>
+
+            <!-- Attendance Tracker -->
+            <div onclick="switchView('attendance')" class="glass-card p-4 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between h-36 border-l-4 border-l-blue-500">
+              <div>
+                <div class="w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 flex items-center justify-center text-sm mb-2.5">
+                  <i class="fa-solid fa-calendar-check"></i>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-white">Attendance Tracker</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Calculate bunks, log classes & track targets</p>
+              </div>
+              <div class="flex justify-end">
+                <span class="w-6 h-6 rounded-full bg-blue-50 dark:bg-slate-700 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs group-hover:translate-x-1 transition-transform">➔</span>
+              </div>
+            </div>
+
+            <!-- Fees Reminder -->
+            <div onclick="switchView('fees')" class="glass-card p-4 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between h-36 border-l-4 border-l-amber-500">
+              <div>
+                <div class="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-300 flex items-center justify-center text-sm mb-2.5">
+                  <i class="fa-solid fa-indian-rupee-sign"></i>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-white">Fees Reminder</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Check pending dues and pay via online gateway</p>
+              </div>
+              <div class="flex justify-end">
+                <span class="w-6 h-6 rounded-full bg-blue-50 dark:bg-slate-700 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs group-hover:translate-x-1 transition-transform">➔</span>
+              </div>
+            </div>
+
+            <!-- Exam Calendar -->
+            <div onclick="switchView('exam-calendar')" class="glass-card p-4 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between h-36 border-l-4 border-l-rose-500">
+              <div>
+                <div class="w-9 h-9 rounded-full bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-300 flex items-center justify-center text-sm mb-2.5">
+                  <i class="fa-solid fa-calendar-days"></i>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-white">Exam Calendar</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Countdown timer, venue & syllabus details</p>
+              </div>
+              <div class="flex justify-end">
+                <span class="w-6 h-6 rounded-full bg-blue-50 dark:bg-slate-700 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs group-hover:translate-x-1 transition-transform">➔</span>
+              </div>
+            </div>
+
+            <!-- Assignment Manager -->
+            <div onclick="switchView('assignments')" class="glass-card p-4 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between h-36 border-l-4 border-l-teal-500">
+              <div>
+                <div class="w-9 h-9 rounded-full bg-teal-100 dark:bg-teal-900/50 text-teal-600 dark:text-teal-300 flex items-center justify-center text-sm mb-2.5">
+                  <i class="fa-solid fa-file-lines"></i>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-white">Assignment Manager</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Add, complete, and track coursework tasks</p>
+              </div>
+              <div class="flex justify-end">
+                <span class="w-6 h-6 rounded-full bg-blue-50 dark:bg-slate-700 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs group-hover:translate-x-1 transition-transform">➔</span>
+              </div>
+            </div>
+
+            <!-- Timetable Manager -->
+            <div onclick="switchView('timetable')" class="glass-card p-4 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between h-36 border-l-4 border-l-indigo-500">
+              <div>
+                <div class="w-9 h-9 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-sm mb-2.5">
+                  <i class="fa-solid fa-clock"></i>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-white">Timetable Manager</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Day-by-day weekly class schedule</p>
+              </div>
+              <div class="flex justify-end">
+                <span class="w-6 h-6 rounded-full bg-blue-50 dark:bg-slate-700 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs group-hover:translate-x-1 transition-transform">➔</span>
+              </div>
+            </div>
+
+            <!-- AI Study Planner -->
+            <div onclick="switchView('ai-planner')" class="glass-card p-4 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between h-36 border-l-4 border-l-sky-500">
+              <div>
+                <div class="w-9 h-9 rounded-full bg-sky-100 dark:bg-sky-900/50 text-sky-600 dark:text-sky-300 flex items-center justify-center text-sm mb-2.5">
+                  <i class="fa-solid fa-book-open"></i>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-white">AI Study Planner</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Generate step-by-step revision timelines</p>
+              </div>
+              <div class="flex justify-end">
+                <span class="w-6 h-6 rounded-full bg-blue-50 dark:bg-slate-700 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs group-hover:translate-x-1 transition-transform">➔</span>
+              </div>
+            </div>
+
+            <!-- CampusSaathi Chatbot -->
+            <div onclick="switchView('chatbot')" class="glass-card p-4 hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between h-36 border-l-4 border-l-purple-500">
+              <div>
+                <div class="w-9 h-9 rounded-full bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-300 flex items-center justify-center text-sm mb-2.5">
+                  <i class="fa-solid fa-comment-dots"></i>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-white">CampusSaathi Chatbot</h3>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Instant AI solutions for college life questions</p>
+              </div>
+              <div class="flex justify-end">
+                <span class="w-6 h-6 rounded-full bg-blue-50 dark:bg-slate-700 text-blue-600 dark:text-blue-300 flex items-center justify-center text-xs group-hover:translate-x-1 transition-transform">➔</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 2. SCHOLARSHIP FINDER VIEW -->
+        <div id="view-scholarship" class="view-content hidden space-y-6">
+          
+          <!-- Eligibility Filter Section Box -->
+          <div class="glass-card p-5 bg-slate-50/80 dark:bg-slate-800/80">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-white mb-4">Check Your Eligibility Filters</h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+              <!-- Category Selector -->
+              <div>
+                <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Category</label>
+                <select id="scCategory" onchange="filterScholarships()" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+                  <option value="ALL">All Categories</option>
+                  <option value="GENERAL">General</option>
+                  <option value="OBC">OBC</option>
+                  <option value="SC_ST">SC/ST</option>
+                  <option value="MINORITY">Minority</option>
+                </select>
+              </div>
+
+              <!-- Family Income Selector -->
+              <div>
+                <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Family Income (Annual)</label>
+                <select id="scIncome" onchange="filterScholarships()" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+                  <option value="10.0">Up to ₹10.0 Lakhs</option>
+                  <option value="8.0">Up to ₹8.0 Lakhs</option>
+                  <option value="5.0">Up to ₹5.0 Lakhs</option>
+                  <option value="2.5">Up to ₹2.5 Lakhs</option>
+                </select>
+              </div>
+
+              <!-- Minimum CGPA Selector -->
+              <div>
+                <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Your CGPA</label>
+                <input type="number" id="scCgpa" value="7.5" step="0.1" min="0" max="10" oninput="filterScholarships()" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 items-center justify-between">
+              <button type="button" onclick="filterScholarships()" class="px-5 py-2.5 bg-[#006837] hover:bg-[#00542c] text-white text-xs font-bold rounded-xl transition-all shadow-xs flex items-center gap-2">
+                <i class="fa-solid fa-filter"></i>
+                <span>Filter Scholarships</span>
+              </button>
+
+              <span id="scholarshipCountBadge" class="text-xs font-semibold text-slate-500 dark:text-slate-400">Showing all scholarships</span>
+            </div>
+          </div>
+
+          <!-- Scholarship Cards Grid -->
+          <div id="scholarshipGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- Card 1 -->
+            <div class="glass-card p-5 flex flex-col justify-between border-l-4 border-l-emerald-500 scholarship-card" data-category="GENERAL" data-cgpa="7.0" data-income="8.0">
+              <div>
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-[10px] font-bold uppercase bg-emerald-100 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded">GENERAL</span>
+                  <span class="text-xs font-black text-slate-800 dark:text-white">₹25,000 / year</span>
+                </div>
+                <h4 class="font-bold text-slate-800 dark:text-white text-sm mb-1">Post-Matric Merit Scholarship</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">For top performing students in technical and professional courses.</p>
+              </div>
+              <div class="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-700">
+                <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">Min CGPA: 7.0</span>
+                <button onclick="openScholarshipDetails('Post-Matric Merit Scholarship', '₹25,000 / year', '7.0', 'Top 10% students in B.Tech/B.E programs.')" class="px-4 py-1.5 bg-[#006837] hover:bg-[#00542c] text-white text-xs font-bold rounded-lg transition-all">View Details</button>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="glass-card p-5 flex flex-col justify-between border-l-4 border-l-blue-500 scholarship-card" data-category="OBC" data-cgpa="6.5" data-income="5.0">
+              <div>
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-[10px] font-bold uppercase bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 px-2 py-0.5 rounded">OBC</span>
+                  <span class="text-xs font-black text-slate-800 dark:text-white">₹15,000 / year</span>
+                </div>
+                <h4 class="font-bold text-slate-800 dark:text-white text-sm mb-1">National Means Scholarship</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Government financial assistance for eligible OBC students.</p>
+              </div>
+              <div class="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-700">
+                <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">Min CGPA: 6.5</span>
+                <button onclick="openScholarshipDetails('National Means Scholarship', '₹15,000 / year', '6.5', 'OBC students with family income < ₹5.0 Lakhs.')" class="px-4 py-1.5 bg-[#006837] hover:bg-[#00542c] text-white text-xs font-bold rounded-lg transition-all">View Details</button>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="glass-card p-5 flex flex-col justify-between border-l-4 border-l-purple-500 scholarship-card" data-category="SC_ST" data-cgpa="5.5" data-income="8.0">
+              <div>
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-[10px] font-bold uppercase bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300 px-2 py-0.5 rounded">SC/ST</span>
+                  <span class="text-xs font-black text-slate-800 dark:text-white">₹40,000 / year</span>
+                </div>
+                <h4 class="font-bold text-slate-800 dark:text-white text-sm mb-1">SC/ST Higher Education Grant</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Tuition fee waiver and monthly allowance for SC/ST students.</p>
+              </div>
+              <div class="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-700">
+                <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">Min CGPA: 5.5</span>
+                <button onclick="openScholarshipDetails('SC/ST Higher Education Grant', '₹40,000 / year', '5.5', 'Full tuition fee reimbursement for SC/ST candidates.')" class="px-4 py-1.5 bg-[#006837] hover:bg-[#00542c] text-white text-xs font-bold rounded-lg transition-all">View Details</button>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="glass-card p-5 flex flex-col justify-between border-l-4 border-l-amber-500 scholarship-card" data-category="MINORITY" data-cgpa="7.5" data-income="2.5">
+              <div>
+                <div class="flex justify-between items-start mb-2">
+                  <span class="text-[10px] font-bold uppercase bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded">MINORITY</span>
+                  <span class="text-xs font-black text-slate-800 dark:text-white">₹30,000 / year</span>
+                </div>
+                <h4 class="font-bold text-slate-800 dark:text-white text-sm mb-1">Minority Tech Excellence Award</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">Special grant for minority community students pursuing engineering.</p>
+              </div>
+              <div class="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-700">
+                <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">Min CGPA: 7.5</span>
+                <button onclick="openScholarshipDetails('Minority Tech Excellence Award', '₹30,000 / year', '7.5', 'Minority students enrolled in CSE, IT, or ECE branches.')" class="px-4 py-1.5 bg-[#006837] hover:bg-[#00542c] text-white text-xs font-bold rounded-lg transition-all">View Details</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3. VOICE ASSISTANT VIEW -->
+        <div id="view-voice-assistant" class="view-content hidden space-y-6">
+          <div class="glass-card p-8 text-center max-w-xl mx-auto relative overflow-hidden">
+            
+            <div id="micRipple" class="w-20 h-20 rounded-full bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-300 flex items-center justify-center text-3xl mx-auto mb-4 border border-purple-200 dark:border-purple-700 transition-all">
+              <i id="micIcon" class="fa-solid fa-microphone"></i>
+            </div>
+
+            <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-1">Voice Assistant AI</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6 max-w-md mx-auto">Hindi aur English mein sawal bolen. AI aapko real-time voice ke saath jawab dega!</p>
+
+            <div class="flex justify-center gap-3 mb-6">
+              <button id="btnVoiceRecord" onclick="toggleVoiceListening()" class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center gap-2">
+                <i class="fa-solid fa-microphone"></i>
+                <span id="btnVoiceText">Start Speaking</span>
+              </button>
+              <button onclick="speakText('Namaste! Main CampusSaathi Assistant Hoon. Aap attendance, fees, ya exam schedule ke baare mein pooch sakte hain.')" class="px-4 py-3 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl transition-all">
+                🔊 Audio Test
+              </button>
+            </div>
+
+            <div class="text-left bg-slate-50 dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-3">
+              <div class="text-[11px] font-bold uppercase text-slate-400">Speech Recognition Status</div>
+              <div id="voiceTranscriptBox" class="text-xs text-slate-700 dark:text-slate-300 min-h-[50px] font-medium italic">
+                Press "Start Speaking" and talk... (e.g. "Meri attendance kitni hai?", "Exam kab hai?")
+              </div>
+            </div>
+
+            <!-- Quick Voice Presets -->
+            <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 text-left">
+              <span class="text-[11px] font-bold text-slate-400 block mb-2">Try Clicking Sample Voice Commands:</span>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="simulateVoiceQuery('Attendance kitni hai?')" class="text-[11px] bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-3 py-1.5 rounded-lg border border-purple-200 dark:border-purple-800 hover:bg-purple-100">"Attendance kitni hai?"</button>
+                <button onclick="simulateVoiceQuery('Exam kab hai?')" class="text-[11px] bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-3 py-1.5 rounded-lg border border-purple-200 dark:border-purple-800 hover:bg-purple-100">"Exam kab hai?"</button>
+                <button onclick="simulateVoiceQuery('Fees baaki hai kya?')" class="text-[11px] bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-3 py-1.5 rounded-lg border border-purple-200 dark:border-purple-800 hover:bg-purple-100">"Fees kitni baki hai?"</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 4. ATTENDANCE TRACKER VIEW -->
+        <div id="view-attendance" class="view-content hidden space-y-6">
+          <div class="glass-card p-6 max-w-2xl mx-auto space-y-6">
+            <div>
+              <h3 class="text-base font-bold text-slate-800 dark:text-white mb-1">Attendance & Bunk Calculator 📊</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Calculate how many classes you can safely skip without falling below required percentage.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Attended Classes</label>
+                <input type="number" id="attConducted" value="40" min="0" oninput="calculateBunk()" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Total Classes Held</label>
+                <input type="number" id="attTotal" value="48" min="1" oninput="calculateBunk()" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Target % Required</label>
+                <select id="attTarget" onchange="calculateBunk()" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+                  <option value="75">75% (Mandatory Standard)</option>
+                  <option value="80">80% (High Eligibility)</option>
+                  <option value="85">85% (Scholarship Criteria)</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="bunkReport" class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-300 font-bold text-xs text-center">
+              Current Percentage: 83.3% | 🎉 Safe Bunks Available: 5 Classes
+            </div>
+
+            <!-- Subject-wise Attendance Breakdown -->
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-700 space-y-3">
+              <div class="flex justify-between items-center">
+                <h4 class="text-xs font-bold text-slate-800 dark:text-white">Subject-wise Attendance Breakdown</h4>
+                <button onclick="logNewClassAttendance()" class="text-[11px] font-bold text-brand-600 dark:text-blue-400 hover:underline">+ Log Attended Class</button>
+              </div>
+
+              <div id="subjectAttendanceList" class="space-y-2">
+                <!-- Dynamic subject items -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 5. FEES REMINDER VIEW -->
+        <div id="view-fees" class="view-content hidden space-y-6">
+          <div class="glass-card p-6 max-w-xl mx-auto space-y-5">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-100 dark:border-slate-700">
+              <div>
+                <h3 class="text-base font-bold text-slate-800 dark:text-white">Fees Status Breakdown 💳</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Academic session 2026-2027</p>
+              </div>
+              <span id="feeTotalPendingBadge" class="text-xs font-extrabold text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-900/50 px-3 py-1 rounded-full">Due: ₹8,000</span>
+            </div>
+
+            <div class="space-y-3">
+              <!-- Tuition Fee -->
+              <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                <div>
+                  <h4 class="text-xs font-bold text-slate-800 dark:text-white">Tuition Fee (Semester 5)</h4>
+                  <p class="text-[10px] text-slate-500 dark:text-slate-400">Due Date: Nov 15, 2026 • Total ₹20,000</p>
+                </div>
+                <span id="tuitionStatusBadge" class="text-xs font-bold text-amber-600 bg-amber-50 dark:bg-amber-900/30 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-800">Pending ₹8,000</span>
+              </div>
+
+              <!-- Hostel Charges -->
+              <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                <div>
+                  <h4 class="text-xs font-bold text-slate-800 dark:text-white">Hostel & Mess Charges</h4>
+                  <p class="text-[10px] text-slate-500 dark:text-slate-400">Paid on: Aug 10, 2026</p>
+                </div>
+                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">Paid ₹12,000</span>
+              </div>
+
+              <!-- Exam Fee -->
+              <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                <div>
+                  <h4 class="text-xs font-bold text-slate-800 dark:text-white">Library & Exam Registration Fee</h4>
+                  <p class="text-[10px] text-slate-500 dark:text-slate-400">Paid on: Sep 02, 2026</p>
+                </div>
+                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">Paid ₹1,500</span>
+              </div>
+            </div>
+
+            <button id="btnPayFee" onclick="openFeePaymentModal()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+              <i class="fa-solid fa-credit-card"></i>
+              <span>Pay Remaining Dues (₹8,000)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 6. EXAM CALENDAR VIEW -->
+        <div id="view-exam-calendar" class="view-content hidden space-y-4">
+          <div class="glass-card p-6 space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <div>
+                <h3 class="text-base font-bold text-slate-800 dark:text-white">Upcoming Exam Schedule 📅</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Semester end-term examination dates and rooms</p>
+              </div>
+              <input type="text" id="examFilterInput" onkeyup="filterExams()" placeholder="Filter subject..." class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
+            </div>
+
+            <div id="examListContainer" class="space-y-3">
+              <!-- Exam items -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. ASSIGNMENT MANAGER VIEW -->
+        <div id="view-assignments" class="view-content hidden space-y-4">
+          <div class="glass-card p-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+              <div>
+                <h3 class="text-base font-bold text-slate-800 dark:text-white">Assignment Tracker 📝</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Track pending coursework, submit dates & status</p>
+              </div>
+              
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <select id="assignmentFilter" onchange="renderAssignments()" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
+                  <option value="ALL">All Tasks</option>
+                  <option value="PENDING">Pending Only</option>
+                  <option value="COMPLETED">Completed</option>
+                </select>
+                <button onclick="promptAddAssignment()" class="px-3.5 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition-all shrink-0 flex items-center gap-1.5">
+                  <i class="fa-solid fa-plus"></i>
+                  <span>Add Task</span>
+                </button>
+              </div>
+            </div>
+
+            <div id="assignmentList" class="space-y-2">
+              <!-- Dynamic Assignments -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. TIMETABLE MANAGER VIEW -->
+        <div id="view-timetable" class="view-content hidden space-y-4">
+          <div class="glass-card p-6 space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <div>
+                <h3 class="text-base font-bold text-slate-800 dark:text-white">Weekly Timetable Schedule 🕒</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Select day to view live class location & timing</p>
+              </div>
+              <div class="flex gap-1 overflow-x-auto w-full sm:w-auto pb-1" id="timetableDayTabs">
+                <!-- Day buttons generated via JS -->
+              </div>
+            </div>
+
+            <div id="timetableScheduleList" class="space-y-3">
+              <!-- Timetable slots rendered dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. AI STUDY PLANNER VIEW -->
+        <div id="view-ai-planner" class="view-content hidden space-y-4">
+          <div class="glass-card p-6 max-w-xl mx-auto space-y-4">
+            <div>
+              <h3 class="text-base font-bold text-slate-800 dark:text-white">AI Study Schedule Generator 🧠</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Enter a subject or topic to generate a day-by-day smart study timeline.</p>
+            </div>
+
+            <div class="space-y-3">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1">Subject Name</label>
+                <input type="text" id="plannerSubject" placeholder="e.g. Operating Systems, Data Structures, Physics" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+              </div>
+              
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1">Days Available</label>
+                  <input type="number" id="plannerDays" value="3" min="1" max="14" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-none">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1">Daily Study Hours</label>
+                  <input type="number" id="plannerHours" value="2" min="1" max="10" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-none">
+                </div>
+              </div>
+
+              <button onclick="generateDynamicPlan()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl transition-all shadow-xs flex items-center justify-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Generate Smart Schedule</span>
+              </button>
+            </div>
+
+            <div id="plannerResult" class="hidden p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 space-y-2">
+              <!-- Output Plan generated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 10. CAMPUSSAATHI CHATBOT VIEW -->
+        <div id="view-chatbot" class="view-content hidden space-y-4">
+          <div class="glass-card p-5 h-[68vh] flex flex-col justify-between">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold">
+                  🤖
+                </div>
+                <div>
+                  <h3 class="text-xs font-bold text-slate-800 dark:text-white">CampusSaathi Assistant Bot</h3>
+                  <span class="text-[10px] text-emerald-600 font-bold">● Online • Hindi & English</span>
+                </div>
+              </div>
+              <button onclick="clearChatHistory()" class="text-[11px] text-slate-400 hover:text-rose-500">Clear Chat</button>
+            </div>
+
+            <!-- Messages Stream -->
+            <div id="chatMessages" class="flex-1 overflow-y-auto py-3 space-y-3 text-xs custom-scrollbar">
+              <div class="bg-slate-100 dark:bg-slate-700 p-3 rounded-2xl max-w-md text-slate-800 dark:text-slate-200">
+                Namaste Kaveri! 🙏 Main aapka personal campus AI assistant hoon. Attendance, syllabus, fees, scholarships ya exam ke baare mein kuch bhi poochhein!
+              </div>
+            </div>
+
+            <!-- Typing Indicator (Hidden by default) -->
+            <div id="chatTypingIndicator" class="hidden text-[10px] text-slate-400 italic px-2 py-1">
+              CampusSaathi is typing...
+            </div>
+
+            <!-- Input Form -->
+            <form onsubmit="handleChat(event)" class="flex gap-2 pt-2 border-t border-slate-100 dark:border-slate-700">
+              <input type="text" id="chatText" placeholder="Ask anything... e.g., 'Physics exam kab hai?'" class="flex-1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500">
+              <button type="submit" class="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-xs">Send</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- 11. SETTINGS VIEW -->
+        <div id="view-settings" class="view-content hidden space-y-4">
+          <div class="glass-card p-6 max-w-md mx-auto space-y-4 text-xs">
+            <h3 class="text-base font-bold text-slate-800 dark:text-white">Account Settings ⚙️</h3>
+            <div>
+              <label class="block font-bold text-slate-600 dark:text-slate-400 mb-1">Student Name</label>
+              <input type="text" id="settingName" value="Kaveri Kumari" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-600 dark:text-slate-400 mb-1">Email Address</label>
+              <input type="email" id="settingEmail" value="kaveri@college.edu" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-600 dark:text-slate-400 mb-1">College Branch & Year</label>
+              <input type="text" id="settingBranch" value="B.Tech Computer Science (3rd Year)" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+            </div>
+
+            <div class="pt-2">
+              <label class="block font-bold text-slate-600 dark:text-slate-400 mb-2">Notification Preferences</label>
+              <div class="space-y-2">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked class="rounded text-brand-600 focus:ring-brand-500">
+                  <span>Fee payment reminders</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked class="rounded text-brand-600 focus:ring-brand-500">
+                  <span>Exam schedule alerts</span>
+                </label>
+              </div>
+            </div>
+
+            <button onclick="saveProfile()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-xs transition-all">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- BOTTOM AI QUICK CHAT BAR -->
+        <div class="glass-card p-4 bg-sky-50/60 dark:bg-slate-800/80 border-blue-100/80 dark:border-slate-700">
+          <div class="flex items-center gap-2 mb-2 text-xs font-bold text-slate-700 dark:text-slate-200">
+            <i class="fa-solid fa-comment-dots text-blue-600 dark:text-blue-400"></i>
+            <span>Ask CampusSaathi AI</span>
+          </div>
+
+          <form onsubmit="handleQuickAsk(event)" class="flex gap-2">
+            <input type="text" id="quickAskInput" placeholder="Type your question here..." class="flex-1 px-4 py-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs focus:outline-none focus:border-brand-500 shadow-2xs">
+            <button type="submit" class="w-10 h-10 rounded-full bg-brand-600 hover:bg-brand-700 text-white flex items-center justify-center shrink-0 shadow-xs transition-transform active:scale-95">
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+            </button>
+          </form>
+
+          <div class="flex flex-wrap gap-2 mt-2.5 text-[10px] text-slate-500 dark:text-slate-400 items-center">
+            <span class="font-bold">Try asking:</span>
+            <button type="button" onclick="fillQuickAsk('Scholarship eligibility?')" class="hover:underline text-brand-600 dark:text-blue-400 font-medium">Scholarship eligibility?</button>
+            <span>•</span>
+            <button type="button" onclick="fillQuickAsk('Next exam?')" class="hover:underline text-brand-600 dark:text-blue-400 font-medium">Next exam?</button>
+            <span>•</span>
+            <button type="button" onclick="fillQuickAsk('Attendance percentage?')" class="hover:underline text-brand-600 dark:text-blue-400 font-medium">Attendance?</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT SIDEBAR STATS & REMINDERS -->
+      <aside class="w-full lg:w-72 shrink-0 space-y-4">
+        
+        <!-- Quick Stats Widget Box -->
+        <div class="glass-card p-4 space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-chart-pie text-brand-600 dark:text-blue-400 text-sm"></i>
+              <h3 class="text-xs font-bold text-slate-800 dark:text-white">Quick Overview</h3>
+            </div>
+            <button onclick="refreshStats()" class="text-[10px] text-slate-400 hover:text-brand-600" title="Refresh"><i class="fa-solid fa-rotate-right"></i></button>
+          </div>
+
+          <div class="space-y-2 text-xs">
+            <div class="flex justify-between items-center">
+              <span class="text-slate-500 dark:text-slate-400 font-medium">Attendance Rate</span>
+              <span id="widgetAttendanceVal" class="font-black text-emerald-600 dark:text-emerald-400">83.3%</span>
+            </div>
+            <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+              <div id="widgetAttendanceBar" class="bg-emerald-500 h-full w-[83.3%] transition-all duration-500"></div>
+            </div>
+
+            <div class="pt-2 flex justify-between items-center">
+              <span class="text-slate-500 dark:text-slate-400 font-medium">Fees Paid</span>
+              <span id="widgetFeeVal" class="font-extrabold text-slate-800 dark:text-white">₹13,500 / ₹21,500</span>
+            </div>
+            <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+              <div id="widgetFeeBar" class="bg-blue-600 h-full w-[62.8%] transition-all duration-500"></div>
+            </div>
+
+            <div class="pt-2 flex justify-between items-center">
+              <span class="text-slate-500 dark:text-slate-400 font-medium">Assignments</span>
+              <span id="widgetAssignmentsVal" class="font-bold text-amber-600 dark:text-amber-400">2 Pending</span>
+            </div>
+
+            <div class="pt-1 flex justify-between items-center">
+              <span class="text-slate-500 dark:text-slate-400 font-medium">Upcoming Exams</span>
+              <span class="font-bold text-rose-600 dark:text-rose-400">2 Exams</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Today's Reminder Widget Box -->
+        <div class="glass-card p-4 space-y-3">
+          <div class="flex items-center gap-2 pb-2 border-b border-slate-100 dark:border-slate-700">
+            <i class="fa-solid fa-bell text-amber-500 text-sm"></i>
+            <h3 class="text-xs font-bold text-slate-800 dark:text-white">Active Alerts</h3>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <div onclick="switchView('assignments')" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 space-y-0.5 cursor-pointer hover:border-brand-300">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-800 dark:text-white">Maths Assignment</span>
+                <span class="text-[9px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold">Due Soon</span>
+              </div>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400">Unit 3 Practice • Submit in 2 days</p>
+            </div>
+
+            <div onclick="switchView('exam-calendar')" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 space-y-0.5 cursor-pointer hover:border-brand-300">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-800 dark:text-white">Physics End-Term</span>
+                <span class="text-[9px] bg-rose-100 text-rose-800 px-1.5 py-0.5 rounded font-bold">Nov 12</span>
+              </div>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400">10:00 AM • Room 104</p>
+            </div>
+
+            <div onclick="switchView('fees')" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-700 space-y-0.5 cursor-pointer hover:border-brand-300">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-800 dark:text-white">Tuition Fee Due</span>
+                <span class="text-[9px] bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded font-bold">₹8,000</span>
+              </div>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400">Due date: Nov 15, 2026</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Motivational Banner Box -->
+        <div class="bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-slate-800 dark:to-indigo-950 rounded-2xl p-4 border border-blue-200 dark:border-slate-700 text-center space-y-1.5">
+          <p id="quoteText" class="text-xs font-bold text-[#1e2b8e] dark:text-blue-300 italic">"Small steps every day lead to big college success! 💙"</p>
+          <div class="text-2xl">🎓</div>
+        </div>
+
+      </aside>
+
+    </main>
+  </div>
+
+  <!-- JAVASCRIPT APP LOGIC -->
+  <script>
+    // GLOBAL STATE MANAGEMENT
+    window.appState = {
+      darkMode: false,
+      user: { name: 'Kaveri Kumari', email: 'kaveri@college.edu' },
+      isListeningVoice: false,
+      selectedDay: 'Mon',
+      assignments: [
+        { id: 1, title: 'Maths Unit 3 Differential Calculus', subject: 'Mathematics', completed: false, dueDate: 'Nov 02' },
+        { id: 2, title: 'Data Structures Lab Experiment 4', subject: 'DSA Lab', completed: true, dueDate: 'Oct 28' },
+        { id: 3, title: 'Operating Systems Deadlock Assignment', subject: 'Operating Systems', completed: false, dueDate: 'Nov 08' }
+      ],
+      attendance: [
+        { subject: 'Operating Systems', attended: 12, total: 14 },
+        { subject: 'Mathematics III', attended: 10, total: 12 },
+        { subject: 'Data Structures & Algorithms', attended: 14, total: 16 },
+        { subject: 'Physics Practical Lab', attended: 4, total: 6 }
+      ],
+      exams: [
+        { id: 1, subject: 'Physics End-Term Exam', date: '2026-11-12', time: '10:00 AM - 01:00 PM', venue: 'Room 104', syllabus: 'Units 1 to 5 Complete' },
+        { id: 2, subject: 'Data Structures Lab Practical', date: '2026-11-18', time: '02:00 PM - 05:00 PM', venue: 'Lab 04', syllabus: 'Trees, Graphs & Dynamic Programming' },
+        { id: 3, subject: 'Mathematics Mid-Term Test', date: '2026-11-25', time: '11:00 AM - 01:00 PM', venue: 'Hall B', syllabus: 'Differential Equations & Linear Algebra' }
+      ],
+      timetable: {
+        Mon: [
+          { time: '10:00 AM - 11:30 AM', subject: 'Operating Systems & Unix', room: 'Room 302', teacher: 'Dr. Sharma', status: 'LIVE' },
+          { time: '02:00 PM - 03:30 PM', subject: 'Algorithms & Complexity', room: 'Lab 04', teacher: 'Prof. Verma', status: 'Upcoming' }
+        ],
+        Tue: [
+          { time: '09:00 AM - 10:30 AM', subject: 'Mathematics III', room: 'Room 201', teacher: 'Dr. Gupta', status: 'Scheduled' },
+          { time: '11:00 AM - 12:30 PM', subject: 'Data Structures Lab', room: 'Lab 02', teacher: 'Prof. Sinha', status: 'Scheduled' }
+        ],
+        Wed: [
+          { time: '10:00 AM - 11:30 AM', subject: 'Physics Practical', room: 'Lab 01', teacher: 'Dr. Mishra', status: 'Scheduled' }
+        ],
+        Thu: [
+          { time: '11:30 AM - 01:00 PM', subject: 'Database Management Systems', room: 'Room 305', teacher: 'Prof. Roy', status: 'Scheduled' }
+        ],
+        Fri: [
+          { time: '10:00 AM - 11:30 AM', subject: 'Computer Networks', room: 'Room 202', teacher: 'Dr. Kumar', status: 'Scheduled' }
+        ],
+        Sat: [
+          { time: '09:30 AM - 11:30 AM', subject: 'Soft Skills & Personality Dev', room: 'Auditorium', teacher: 'Ms. Anjali', status: 'Scheduled' }
+        ]
+      },
+      fees: {
+        tuitionPending: 8000,
+        tuitionTotal: 20000,
+        paidTotal: 13500
+      }
+    };
+
+    // ON INIT
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSavedState();
+      renderAllComponents();
+    });
+
+    function loadSavedState() {
+      const savedUser = localStorage.getItem('campussaathi_user');
+      if (savedUser) {
+        try { window.appState.user = JSON.parse(savedUser); } catch(e){}
+      }
+      const savedAssignments = localStorage.getItem('campussaathi_assignments');
+      if (savedAssignments) {
+        try { window.appState.assignments = JSON.parse(savedAssignments); } catch(e){}
+      }
+      
+      const theme = localStorage.getItem('campussaathi_theme');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        window.appState.darkMode = true;
+        const themeIcon = document.getElementById('themeIcon');
+        if(themeIcon) themeIcon.className = "fa-solid fa-sun";
+      }
+    }
+
+    function renderAllComponents() {
+      updateUIUser();
+      renderAssignments();
+      renderSubjectAttendance();
+      renderExamList();
+      renderTimetableTabs();
+      calculateBunk();
+      refreshStats();
+    }
+
+    function toggleDarkMode() {
+      window.appState.darkMode = !window.appState.darkMode;
+      const themeIcon = document.getElementById('themeIcon');
+      if (window.appState.darkMode) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('campussaathi_theme', 'dark');
+        if (themeIcon) themeIcon.className = "fa-solid fa-sun";
+        showToast('Dark mode activated');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('campussaathi_theme', 'light');
+        if (themeIcon) themeIcon.className = "fa-solid fa-moon";
+        showToast('Light mode activated');
+      }
+    }
+
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    function switchAuthTab(tab) {
+      const loginForm = document.getElementById('loginForm');
+      const regForm = document.getElementById('registerForm');
+      const tabLogin = document.getElementById('tabLogin');
+      const tabRegister = document.getElementById('tabRegister');
+
+      if (tab === 'login') {
+        loginForm.classList.remove('hidden');
+        regForm.classList.add('hidden');
+        tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-slate-800 text-brand-600 dark:text-blue-400 shadow-xs";
+        tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-600 dark:text-slate-300";
+      } else {
+        loginForm.classList.add('hidden');
+        regForm.classList.remove('hidden');
+        tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-white dark:bg-slate-800 text-brand-600 dark:text-blue-400 shadow-xs";
+        tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-600 dark:text-slate-300";
+      }
+    }
+
+    function handleAuthSubmit(e, type) {
+      if (e) e.preventDefault();
+      const name = (type === 'login' ? document.getElementById('loginName').value : document.getElementById('regName').value) || 'Kaveri Kumari';
+      const email = (type === 'login' ? document.getElementById('loginEmail').value : document.getElementById('regEmail').value) || 'kaveri@college.edu';
+      
+      window.appState.user = { name, email };
+      localStorage.setItem('campussaathi_user', JSON.stringify(window.appState.user));
+      updateUIUser();
+      showToast(`Welcome back, ${name}!`);
+    }
+
+    function loginAsGuest() {
+      window.appState.user = { name: 'Kaveri Kumari', email: 'kaveri@college.edu' };
+      localStorage.setItem('campussaathi_user', JSON.stringify(window.appState.user));
+      updateUIUser();
+      showToast('Logged in as Kaveri Kumari');
+    }
+
+    function handleLogout() {
+      if (confirm('Are you sure you want to log out?')) {
+        localStorage.removeItem('campussaathi_user');
+        window.appState.user = null;
+        showAuthModal(true);
+        showToast('Logged out successfully');
+      }
+    }
+
+    function showAuthModal(show) {
+      const modal = document.getElementById('authModal');
+      const layout = document.getElementById('appLayout');
+      if (show) {
+        modal.classList.remove('hidden');
+        layout.classList.add('opacity-40', 'pointer-events-none');
+      } else {
+        modal.classList.add('hidden');
+        layout.classList.remove('opacity-40', 'pointer-events-none');
+      }
+    }
+
+    function updateUIUser() {
+      if (!window.appState.user) {
+        showAuthModal(true);
+        return;
+      }
+      showAuthModal(false);
+
+      const name = window.appState.user.name || 'Student';
+      const email = window.appState.user.email || 'student@college.edu';
+
+      document.getElementById('topUserName').textContent = name;
+      document.getElementById('topUserAvatar').textContent = name.charAt(0).toUpperCase();
+      document.getElementById('heroWelcomeBadge').textContent = `Hello, ${name}! 👋`;
+
+      const settingName = document.getElementById('settingName');
+      const settingEmail = document.getElementById('settingEmail');
+      if (settingName) settingName.value = name;
+      if (settingEmail) settingEmail.value = email;
+    }
+
+    function switchView(viewId) {
+      document.querySelectorAll('.view-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+
+      const selectedView = document.getElementById(`view-${viewId}`);
+      if (selectedView) selectedView.classList.remove('hidden');
+
+      const selectedNav = document.getElementById(`nav-${viewId}`);
+      if (selectedNav) selectedNav.classList.add('active');
+
+      const subpageHeader = document.getElementById('subpageHeader');
+      if (viewId === 'home') {
+        subpageHeader.classList.add('hidden');
+      } else {
+        subpageHeader.classList.remove('hidden');
+        subpageHeader.classList.add('flex');
+
+        const titleMap = {
+          'scholarship': ['Scholarship Finder', 'Find government & private scholarships curated for you.'],
+          'voice-assistant': ['Voice Assistant', 'Interactive Hindi & English voice commands.'],
+          'attendance': ['Attendance Tracker', 'Calculate attendance & safe bunks.'],
+          'fees': ['Fees Reminder', 'Fee status and online payment updates.'],
+          'exam-calendar': ['Exam Calendar', 'End-terms and practical exam schedule.'],
+          'assignments': ['Assignment Manager', 'Track pending homework and submissions.'],
+          'timetable': ['Timetable Manager', 'Live class schedule and classrooms.'],
+          'ai-planner': ['AI Study Planner', 'Custom revision schedule generator.'],
+          'chatbot': ['CampusSaathi Chatbot', '24/7 AI student assistant.'],
+          'settings': ['Settings', 'Profile and account configuration.']
+        };
+
+        if (titleMap[viewId]) {
+          document.getElementById('subpageTitle').textContent = titleMap[viewId][0];
+          document.getElementById('subpageSubtitle').textContent = titleMap[viewId][1];
+        }
+      }
+
+      if (window.innerWidth < 1024) {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
+          toggleMobileSidebar();
+        }
+      }
+    }
+
+    // SEARCH FUNCTIONALITY
+    function handleGlobalSearch(e) {
+      if (e.key === 'Enter') {
+        handleGlobalSearchClick();
+      }
+    }
+
+    function handleGlobalSearchClick() {
+      const q = document.getElementById('globalSearchInput').value.trim().toLowerCase();
+      if (!q) return;
+
+      if (q.includes('scholarship')) switchView('scholarship');
+      else if (q.includes('exam')) switchView('exam-calendar');
+      else if (q.includes('fee') || q.includes('dues')) switchView('fees');
+      else if (q.includes('attend')) switchView('attendance');
+      else if (q.includes('assign')) switchView('assignments');
+      else if (q.includes('time') || q.includes('class')) switchView('timetable');
+      else {
+        switchView('chatbot');
+        const chatInput = document.getElementById('chatText');
+        if (chatInput) {
+          chatInput.value = q;
+          handleChat();
+        }
+      }
+    }
+
+    // VOICE ASSISTANT LOGIC
+    function toggleVoiceListening() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        showToast('Speech recognition is not supported in this browser.');
+        return;
+      }
+
+      if (window.appState.isListeningVoice) {
+        window.appState.isListeningVoice = false;
+        updateMicUI(false);
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'hi-IN'; // Supports Hindi/English accent
+      recognition.continuous = false;
+
+      recognition.onstart = () => {
+        window.appState.isListeningVoice = true;
+        updateMicUI(true);
+        document.getElementById('voiceTranscriptBox').textContent = "Listening... Speak now!";
+      };
+
+      recognition.onresult = (e) => {
+        const text = e.results[0][0].transcript;
+        document.getElementById('voiceTranscriptBox').textContent = `You asked: "${text}"`;
+        processVoiceQuery(text);
+      };
+
+      recognition.onerror = () => {
+        window.appState.isListeningVoice = false;
+        updateMicUI(false);
+        document.getElementById('voiceTranscriptBox').textContent = "Could not recognize speech. Try again.";
+      };
+
+      recognition.onend = () => {
+        window.appState.isListeningVoice = false;
+        updateMicUI(false);
+      };
+
+      recognition.start();
+    }
+
+    function updateMicUI(active) {
+      const micRipple = document.getElementById('micRipple');
+      const btnText = document.getElementById('btnVoiceText');
+      if (active) {
+        micRipple.classList.add('mic-pulsing', 'bg-rose-100', 'text-rose-600');
+        btnText.textContent = "Stop Listening";
+      } else {
+        micRipple.classList.remove('mic-pulsing', 'bg-rose-100', 'text-rose-600');
+        btnText.textContent = "Start Speaking";
+      }
+    }
+
+    function simulateVoiceQuery(text) {
+      document.getElementById('voiceTranscriptBox').textContent = `Sample Query: "${text}"`;
+      processVoiceQuery(text);
+    }
+
+    function processVoiceQuery(query) {
+      const q = query.toLowerCase();
+      let reply = "";
+
+      if (q.includes('attendance')) {
+        reply = "Aapki current total attendance 83.3 percentage hai. Safe bunks available: 5 classes.";
+      } else if (q.includes('exam')) {
+        reply = "Aapka agla exam Physics End-Term hai, Nov 12 ko subah 10 baje Room 104 mein.";
+      } else if (q.includes('fee') || q.includes('fees')) {
+        reply = "Tuition fee mein ₹8,000 baaki hain. Due date 15 November 2026 hai.";
+      } else if (q.includes('scholarship')) {
+        reply = "Aap Post-Matric Merit Scholarship ke liye eligible hain. Maximum CGPA required 7.0 hai.";
+      } else {
+        reply = `Maine aapka sawal "${query}" samajh liya hai. CampusSaathi dashboard me saare details updated hain.`;
+      }
+
+      speakText(reply);
+      showToast(reply);
+    }
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.95;
+        utterance.lang = 'hi-IN';
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    // SCHOLARSHIP FINDER LOGIC
+    function filterScholarships() {
+      const category = document.getElementById('scCategory').value;
+      const cgpaInput = parseFloat(document.getElementById('scCgpa').value) || 0;
+      const incomeInput = parseFloat(document.getElementById('scIncome').value) || 10.0;
+
+      const cards = document.querySelectorAll('.scholarship-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        const cardMinCgpa = parseFloat(card.getAttribute('data-cgpa')) || 0;
+        const cardIncome = parseFloat(card.getAttribute('data-income')) || 10.0;
+
+        const matchCat = (category === 'ALL' || cardCat === category);
+        const matchCgpa = (cgpaInput >= cardMinCgpa);
+        const matchIncome = (incomeInput >= cardIncome);
+
+        if (matchCat && matchCgpa && matchIncome) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      document.getElementById('scholarshipCountBadge').textContent = `Showing ${visibleCount} matching scholarship(s)`;
+    }
+
+    function openScholarshipDetails(title, amount, minCgpa, description) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalBody').innerHTML = `
+        <div class="space-y-3">
+          <div class="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900 rounded-xl">
+            <span class="font-bold text-slate-700 dark:text-slate-300">Grant Amount:</span>
+            <span class="font-black text-emerald-600 dark:text-emerald-400 text-sm">${amount}</span>
+          </div>
+          <p class="text-slate-600 dark:text-slate-300">${description}</p>
+          <div class="text-[11px] text-slate-500">
+            <strong>Eligibility Criteria:</strong>
+            <ul class="list-disc pl-4 mt-1 space-y-0.5">
+              <li>Minimum CGPA required: ${minCgpa}</li>
+              <li>Valid College ID & Caste/Income Certificate required.</li>
+              <li>Must not be receiving duplicate state benefits.</li>
+            </ul>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('modalFooter').innerHTML = `
+        <button onclick="closeGeneralModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl">Close</button>
+        <button onclick="applyScholarship('${title}')" class="px-5 py-2 bg-[#006837] hover:bg-[#00542c] text-white text-xs font-bold rounded-xl">Submit Application</button>
+      `;
+
+      openGeneralModal();
+    }
+
+    function applyScholarship(name) {
+      closeGeneralModal();
+      showToast(`🎉 Application successfully submitted for ${name}!`);
+    }
+
+    // ATTENDANCE CALCULATOR LOGIC
+    function calculateBunk() {
+      const attended = parseInt(document.getElementById('attConducted').value) || 0;
+      const total = parseInt(document.getElementById('attTotal').value) || 1;
+      const target = parseInt(document.getElementById('attTarget').value) || 75;
+
+      const pct = ((attended / total) * 100).toFixed(1);
+      const box = document.getElementById('bunkReport');
+
+      if (pct >= target) {
+        const bunks = Math.floor((100 * attended - target * total) / target);
+        box.textContent = `Current Percentage: ${pct}% | 🎉 Safe Bunks Available: ${bunks} Classes`;
+        box.className = "p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-300 font-bold text-xs text-center";
+      } else {
+        const requiredToAttend = Math.ceil((target * total - 100 * attended) / (100 - target));
+        box.textContent = `Current Percentage: ${pct}% | 🚨 Below Target! Attend next ${requiredToAttend} class(es) continuously.`;
+        box.className = "p-4 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-900 dark:text-rose-300 font-bold text-xs text-center";
+      }
+
+      // Sync Quick Stats Widget
+      document.getElementById('widgetAttendanceVal').textContent = `${pct}%`;
+      document.getElementById('widgetAttendanceBar').style.width = `${Math.min(pct, 100)}%`;
+    }
+
+    function renderSubjectAttendance() {
+      const container = document.getElementById('subjectAttendanceList');
+      if (!container) return;
+
+      container.innerHTML = window.appState.attendance.map((sub, idx) => {
+        const subPct = ((sub.attended / sub.total) * 100).toFixed(1);
+        return `
+          <div class="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 flex justify-between items-center text-xs">
+            <div>
+              <h5 class="font-bold text-slate-800 dark:text-white">${sub.subject}</h5>
+              <p class="text-[10px] text-slate-500">${sub.attended} attended / ${sub.total} held</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-extrabold ${subPct >= 75 ? 'text-emerald-600' : 'text-rose-600'}">${subPct}%</span>
+              <button onclick="incrementSubjectAttendance(${idx})" class="w-7 h-7 rounded-lg bg-brand-100 text-brand-700 dark:bg-slate-700 dark:text-blue-300 font-bold flex items-center justify-center hover:bg-brand-200">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function incrementSubjectAttendance(index) {
+      window.appState.attendance[index].attended += 1;
+      window.appState.attendance[index].total += 1;
+      renderSubjectAttendance();
+      showToast(`Updated attendance for ${window.appState.attendance[index].subject}`);
+    }
+
+    function logNewClassAttendance() {
+      const subName = prompt("Enter Subject Name:");
+      if (subName) {
+        window.appState.attendance.push({ subject: subName, attended: 1, total: 1 });
+        renderSubjectAttendance();
+        showToast(`Added ${subName} to subject list`);
+      }
+    }
+
+    // FEES MANAGER LOGIC
+    function openFeePaymentModal() {
+      document.getElementById('modalTitle').textContent = "Pay College Fees Online";
+      document.getElementById('modalBody').innerHTML = `
+        <div class="space-y-3">
+          <div class="p-3 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl text-amber-900 dark:text-amber-300">
+            <span class="font-bold">Pending Tuition Fee:</span> ₹8,000
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Select Payment Method</label>
+            <select id="paymentMethodSelect" class="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs">
+              <option value="UPI">UPI (Google Pay / PhonePe / Paytm)</option>
+              <option value="CARD">Credit / Debit Card</option>
+              <option value="NETBANKING">Net Banking</option>
+            </select>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('modalFooter').innerHTML = `
+        <button onclick="closeGeneralModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl">Cancel</button>
+        <button onclick="processFeePayment()" class="px-5 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl">Proceed to Pay ₹8,000</button>
+      `;
+
+      openGeneralModal();
+    }
+
+    function processFeePayment() {
+      window.appState.fees.tuitionPending = 0;
+      window.appState.fees.paidTotal = 21500;
+
+      document.getElementById('tuitionStatusBadge').className = "text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800";
+      document.getElementById('tuitionStatusBadge').textContent = "Paid ₹8,000";
+
+      document.getElementById('feeTotalPendingBadge').textContent = "Due: ₹0";
+      document.getElementById('btnPayFee').disabled = true;
+      document.getElementById('btnPayFee').className = "w-full py-3 bg-slate-300 dark:bg-slate-700 text-slate-500 font-bold text-xs rounded-xl cursor-not-allowed";
+      document.getElementById('btnPayFee').innerHTML = "<span>All Dues Cleared 🎉</span>";
+
+      closeGeneralModal();
+      refreshStats();
+      showToast("Payment successful! Receipt generated and saved.");
+    }
+
+    // EXAM CALENDAR LOGIC
+    function renderExamList() {
+      const container = document.getElementById('examListContainer');
+      if (!container) return;
+
+      container.innerHTML = window.appState.exams.map(ex => `
+        <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+          <div>
+            <h4 class="text-xs font-bold text-slate-800 dark:text-white">${ex.subject}</h4>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">🗓️ ${ex.date} • 🕒 ${ex.time} • 📍 ${ex.venue}</p>
+          </div>
+          <button onclick="viewExamDetails('${ex.subject}', '${ex.syllabus}', '${ex.venue}')" class="px-3.5 py-1.5 bg-brand-600 text-white rounded-lg text-xs font-bold self-start sm:self-auto hover:bg-brand-700">View Syllabus & Room</button>
+        </div>
+      `).join('');
+    }
+
+    function filterExams() {
+      const q = document.getElementById('examFilterInput').value.toLowerCase();
+      const filtered = window.appState.exams.filter(e => e.subject.toLowerCase().includes(q));
+      const container = document.getElementById('examListContainer');
+      
+      container.innerHTML = filtered.map(ex => `
+        <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 flex justify-between items-center">
+          <div>
+            <h4 class="text-xs font-bold text-slate-800 dark:text-white">${ex.subject}</h4>
+            <p class="text-[10px] text-slate-500 mt-0.5">${ex.date} • ${ex.time}</p>
+          </div>
+          <button onclick="viewExamDetails('${ex.subject}', '${ex.syllabus}', '${ex.venue}')" class="px-3 py-1.5 bg-brand-600 text-white rounded-lg text-xs font-bold">Details</button>
+        </div>
+      `).join('');
+    }
+
+    function viewExamDetails(subject, syllabus, venue) {
+      document.getElementById('modalTitle').textContent = subject;
+      document.getElementById('modalBody').innerHTML = `
+        <div class="space-y-2">
+          <p><strong>Venue Room:</strong> ${venue}</p>
+          <p><strong>Syllabus Coverage:</strong> ${syllabus}</p>
+        </div>
+      `;
+      document.getElementById('modalFooter').innerHTML = `
+        <button onclick="closeGeneralModal()" class="px-4 py-2 bg-brand-600 text-white text-xs font-bold rounded-xl">Got It</button>
+      `;
+      openGeneralModal();
+    }
+
+    // ASSIGNMENT MANAGER LOGIC
+    function renderAssignments() {
+      const list = document.getElementById('assignmentList');
+      if (!list) return;
+
+      const filter = document.getElementById('assignmentFilter') ? document.getElementById('assignmentFilter').value : 'ALL';
+      let items = window.appState.assignments;
+
+      if (filter === 'PENDING') items = items.filter(a => !a.completed);
+      if (filter === 'COMPLETED') items = items.filter(a => a.completed);
+
+      if (items.length === 0) {
+        list.innerHTML = `<p class="text-center text-xs text-slate-400 py-4">No assignments found.</p>`;
+        return;
+      }
+
+      list.innerHTML = items.map(a => `
+        <div class="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl flex justify-between items-center text-xs">
+          <div class="flex items-center gap-3">
+            <input type="checkbox" ${a.completed ? 'checked' : ''} onchange="toggleAssignmentStatus(${a.id})" class="w-4 h-4 text-brand-600 rounded focus:ring-brand-500 cursor-pointer">
+            <div>
+              <h4 class="font-bold ${a.completed ? 'line-through text-slate-400' : 'text-slate-800 dark:text-white'}">${a.title}</h4>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400">${a.subject} • Due: ${a.dueDate || 'Soon'}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full ${a.completed ? 'bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300' : 'bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300'}">
+              ${a.completed ? 'Done' : 'Pending'}
+            </span>
+            <button onclick="deleteAssignment(${a.id})" class="text-slate-400 hover:text-rose-500 text-xs p-1"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      `).join('');
+
+      refreshStats();
+    }
+
+    function toggleAssignmentStatus(id) {
+      const item = window.appState.assignments.find(a => a.id === id);
+      if (item) {
+        item.completed = !item.completed;
+        localStorage.setItem('campussaathi_assignments', JSON.stringify(window.appState.assignments));
+        renderAssignments();
+      }
+    }
+
+    function promptAddAssignment() {
+      const title = prompt("Enter Assignment Title:");
+      if (!title) return;
+      const subject = prompt("Enter Subject Name:", "General Coursework") || "General";
+
+      window.appState.assignments.push({
+        id: Date.now(),
+        title,
+        subject,
+        completed: false,
+        dueDate: 'Next Week'
+      });
+
+      localStorage.setItem('campussaathi_assignments', JSON.stringify(window.appState.assignments));
+      renderAssignments();
+      showToast('Assignment added successfully!');
+    }
+
+    function deleteAssignment(id) {
+      window.appState.assignments = window.appState.assignments.filter(a => a.id !== id);
+      localStorage.setItem('campussaathi_assignments', JSON.stringify(window.appState.assignments));
+      renderAssignments();
+      showToast('Assignment deleted.');
+    }
+
+    // TIMETABLE LOGIC
+    function renderTimetableTabs() {
+      const container = document.getElementById('timetableDayTabs');
+      if (!container) return;
+
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      container.innerHTML = days.map(d => `
+        <button onclick="switchTimetableDay('${d}')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${window.appState.selectedDay === d ? 'bg-brand-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'}">${d}</button>
+      `).join('');
+
+      renderTimetableSchedule();
+    }
+
+    function switchTimetableDay(day) {
+      window.appState.selectedDay = day;
+      renderTimetableTabs();
+    }
+
+    function renderTimetableSchedule() {
+      const list = document.getElementById('timetableScheduleList');
+      if (!list) return;
+
+      const daySchedule = window.appState.timetable[window.appState.selectedDay] || [];
+      if (daySchedule.length === 0) {
+        list.innerHTML = `<p class="text-center text-xs text-slate-400 py-6">No classes scheduled for ${window.appState.selectedDay}. Enjoy your day! 🎉</p>`;
+        return;
+      }
+
+      list.innerHTML = daySchedule.map(slot => `
+        <div class="p-3.5 ${slot.status === 'LIVE' ? 'bg-[#1e2b8e] text-white' : 'bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700'} rounded-xl shadow-xs flex justify-between items-center">
+          <div>
+            <h4 class="text-xs font-bold ${slot.status === 'LIVE' ? 'text-white' : 'text-slate-800 dark:text-white'}">${slot.subject}</h4>
+            <p class="text-[10px] ${slot.status === 'LIVE' ? 'text-blue-200' : 'text-slate-500 dark:text-slate-400'}">${slot.time} • ${slot.room} • Faculty: ${slot.teacher}</p>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded-full font-black ${slot.status === 'LIVE' ? 'bg-white text-brand-700' : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'}">${slot.status}</span>
+        </div>
+      `).join('');
+    }
+
+    // AI STUDY PLANNER LOGIC
+    function generateDynamicPlan() {
+      const subject = document.getElementById('plannerSubject').value.trim() || 'Operating Systems';
+      const days = parseInt(document.getElementById('plannerDays').value) || 3;
+      const hours = parseInt(document.getElementById('plannerHours').value) || 2;
+
+      const resBox = document.getElementById('plannerResult');
+      resBox.classList.remove('hidden');
+
+      let planContent = `<p class="font-bold text-brand-700 dark:text-blue-400">✨ Generated ${days}-Day Smart Study Plan for ${subject}:</p>`;
+      
+      for (let i = 1; i <= days; i++) {
+        planContent += `
+          <div class="p-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 mt-1">
+            <span class="font-bold">Day ${i} (${hours} Hours):</span> Core Chapter ${i} theory & key formula practice.
+          </div>
+        `;
+      }
+
+      planContent += `<p class="text-[10px] text-slate-400 pt-1">💡 Tip: Take a 10-minute break after every 45 minutes of study.</p>`;
+      resBox.innerHTML = planContent;
+      showToast('Smart study plan generated!');
+    }
+
+    // CAMPUSSAATHI CHATBOT LOGIC
+    function handleChat(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('chatText');
+      const text = input ? input.value.trim() : '';
+      if (!text) return;
+
+      const chatBox = document.getElementById('chatMessages');
+      chatBox.innerHTML += `<div class="bg-brand-600 text-white p-3 rounded-2xl max-w-md ml-auto text-xs shadow-xs">${text}</div>`;
+      input.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      const typing = document.getElementById('chatTypingIndicator');
+      if (typing) typing.classList.remove('hidden');
+
+      setTimeout(() => {
+        if (typing) typing.classList.add('hidden');
+        let botReply = getBotResponse(text);
+        chatBox.innerHTML += `<div class="bg-slate-100 dark:bg-slate-700 p-3 rounded-2xl max-w-md text-slate-800 dark:text-slate-200 text-xs shadow-xs">${botReply}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 700);
+    }
+
+    function getBotResponse(query) {
+      const q = query.toLowerCase();
+      if (q.includes('exam') || q.includes('schedule')) {
+        return "Aapka agla exam <strong>Physics End-Term</strong> hai jo Nov 12, 2026 ko Room 104 mein hoga.";
+      } else if (q.includes('fee') || q.includes('due') || q.includes('money')) {
+        return "Tuition fee me ₹8,000 pending hain. Due date 15 Nov hai. Fees Reminder tab se pay kar sakte hain.";
+      } else if (q.includes('attend') || q.includes('bunk')) {
+        return "Aapki total attendance 83.3% hai. Target 75% rakhte huye aap 5 classes safe bunk kar sakte hain!";
+      } else if (q.includes('scholarship')) {
+        return "Aap <strong>Post-Matric Merit Scholarship</strong> (₹25,000) ke liye eligible hain.";
+      } else {
+        return `Aapke query "${query}" ka answer: CampusSaathi dashboard par saare features live updated hain. Detailed info ke liye navigation menu check karein!`;
+      }
+    }
+
+    function clearChatHistory() {
+      document.getElementById('chatMessages').innerHTML = `<div class="bg-slate-100 dark:bg-slate-700 p-3 rounded-2xl max-w-md text-slate-800 dark:text-slate-200 text-xs">Chat history cleared. Namaste! Main aapki kya madad karoon?</div>`;
+    }
+
+    function fillQuickAsk(text) {
+      document.getElementById('quickAskInput').value = text;
+    }
+
+    function handleQuickAsk(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('quickAskInput');
+      if (input && input.value.trim()) {
+        const val = input.value;
+        switchView('chatbot');
+        document.getElementById('chatText').value = val;
+        handleChat();
+        input.value = '';
+      }
+    }
+
+    // STATS SYNC & UTILS
+    function refreshStats() {
+      const pendingAssign = window.appState.assignments.filter(a => !a.completed).length;
+      document.getElementById('widgetAssignmentsVal').textContent = `${pendingAssign} Pending`;
+
+      const feeVal = document.getElementById('widgetFeeVal');
+      const feeBar = document.getElementById('widgetFeeBar');
+      if (feeVal && feeBar) {
+        feeVal.textContent = `₹${window.appState.fees.paidTotal.toLocaleString()} / ₹21,500`;
+        const pct = ((window.appState.fees.paidTotal / 21500) * 100).toFixed(1);
+        feeBar.style.width = `${pct}%`;
+      }
+    }
+
+    function saveProfile() {
+      const name = document.getElementById('settingName').value;
+      const email = document.getElementById('settingEmail').value;
+      window.appState.user.name = name;
+      window.appState.user.email = email;
+      localStorage.setItem('campussaathi_user', JSON.stringify(window.appState.user));
+      updateUIUser();
+      showToast('Profile settings updated successfully!');
+    }
+
+    function openGeneralModal() {
+      document.getElementById('generalModal').classList.remove('hidden');
+    }
+
+    function closeGeneralModal() {
+      document.getElementById('generalModal').classList.add('hidden');
+    }
+
+    function showToast(msg) {
+      const existing = document.querySelectorAll('.app-toast');
+      existing.forEach(e => e.remove());
+
+      const toast = document.createElement('div');
+      toast.className = "app-toast fixed bottom-5 right-5 bg-slate-900 text-white text-xs font-bold px-4 py-3 rounded-xl shadow-2xl z-50 flex items-center gap-2 border border-slate-700 animate-bounce";
+      toast.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i><span>${msg}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3200);
+    }
+  </script>
 </body>
 </html>
