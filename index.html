@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusSaathi AI - Student Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+        <div class="logo-section">
+            <h2>CampusSaathi AI</h2>
+            <p>Your College Life, Our Priority</p>
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li class="active" onclick="switchTab('home')"><i class="fa-solid fa-house"></i> Home</li>
+                <li onclick="switchTab('voice')"><i class="fa-solid fa-microphone"></i> Voice Assistant</li>
+                <li onclick="switchTab('scholarship')"><i class="fa-solid fa-award"></i> Scholarship Finder</li>
+                <li onclick="switchTab('attendance')"><i class="fa-solid fa-calendar-check"></i> Attendance Tracker</li>
+                <li onclick="switchTab('fees')"><i class="fa-solid fa-wallet"></i> Fees Reminder</li>
+                <li onclick="switchTab('exam')"><i class="fa-solid fa-calendar-days"></i> Exam Calendar</li>
+                <li onclick="switchTab('assignment')"><i class="fa-solid fa-list-check"></i> Assignment Manager</li>
+                <li onclick="switchTab('timetable')"><i class="fa-solid fa-clock"></i> Timetable Manager</li>
+                <li onclick="switchTab('planner')"><i class="fa-solid fa-brain"></i> AI Study Planner</li>
+                <li onclick="switchTab('chatbot')"><i class="fa-solid fa-robot"></i> CampusSaathi Chatbot</li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" onclick="alert('Settings opened!')"><i class="fa-solid fa-gear"></i> Settings</a>
+            <a href="#" onclick="alert('Logged out successfully!')" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTAINER -->
+    <div class="main-container">
+        
+        <!-- TOP HEADER -->
+        <header class="top-header">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search features, ask anything..." id="global-search" onkeyup="filterCards()">
+            </div>
+            <div class="user-dropdown">
+                <span class="avatar-circle"><i class="fa-solid fa-user"></i> Student <i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+        </header>
+
+        <div class="dashboard-layout">
+            
+            <!-- CENTRAL CONTENT AREA -->
+            <div class="content-area">
+                
+                <!-- HOME / DASHBOARD VIEW -->
+                <div id="home-view" class="view-panel active-panel">
+                    
+                    <!-- Welcome Banner -->
+                    <div class="welcome-banner">
+                        <div class="banner-text">
+                            <span class="hello-tag">Hello, Student! 👋</span>
+                            <h1>Welcome to <span>CampusSaathi AI</span></h1>
+                            <p>Your smart college assistant, helping you manage your studies, fees, exams and more.</p>
+                            <div class="banner-pills">
+                                <span class="pill">⚡ Smart</span>
+                                <span class="pill">❤️ Easy</span>
+                                <span class="pill">🛡️ Always With You</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature Cards Grid (Exact 9 Cards) -->
+                    <div class="cards-grid" id="cards-container">
+                        
+                        <!-- Card 1: Voice Assistant -->
+                        <div class="feature-card" onclick="switchTab('voice')">
+                            <div class="card-icon-title">
+                                <div class="icon-box bg-purple"><i class="fa-solid fa-microphone-lines"></i></div>
+                                <h3>Voice Assistant</h3>
+                            </div>
+                            <p>Hindi & English mein sawal poochhein</p>
+                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        </div>
+
+                        <!-- Card 2: Scholarship Finder -->
+                        <div class="feature-card" onclick="switchTab('scholarship')">
+                            <div class="card-icon-title">
+                                <div class="icon-box bg-orange"><i class="fa-solid fa-graduation-cap"></i></div>
+                                <h3>Scholarship Finder</h3>
+                            </div>
+                            <p>Apni eligibility aur opportunities check karein</p>
+                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        </div>
+
+                        <!-- Card 3: Attendance Tracker -->
+                        <div class="feature-card" onclick="switchTab('attendance')">
+                            <div class="card-icon-title">
+                                <div class="icon-box bg-blue"><i class="fa-solid fa-calculator"></i></div>
+                                <h3>Attendance Tracker</h3>
+                            </div>
+                            <p>Apni attendance calculate karein</p>
+                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        </div>
+
+                        <!-- Card 4: Fees Reminder -->
+                        <div class="feature-card" onclick="switchTab('fees')">
+                            <div class="card-icon-title">
+                                <div class="icon-box bg-yellow"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                                <h3>Fees Reminder</h3>
+                            </div>
+                            <p>Total aur paid fees check karein</p>
+                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        </div>
+
+                        <!-- Card 5: Exam Calendar -->
+                        <div class="feature-card" onclick="switchTab('exam')">
+                            <div class="card-icon-title">
+                                <div class="icon-box bg-pink"><i class="fa-solid fa-calendar-days"></i></div>
+                                <h3>Exam Calendar</h3>
+                            </div>
+                            <p>Exam dates aur schedule dekhein</p>
+                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        </div>
+
+                        <!-- Card 6: Assignment Manager -->
+                        <div class="feature-card" onclick="switchTab('assignment')">
+                            <div class="card-icon-title">
+                                <div class="icon-box bg-teal"><i class="fa-solid fa-file-lines"></i></div>
+                                <h3>Assignment Manager</h3>
+                            </div>
+                            <p>Assignments add aur manage karein</p>
+                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        </div>
+
+                        <!-- Card 7: Timetable Manager -->
+                        <div class="feature-card" onclick="switchTab('timetable')">
+                            <div class="card-icon-title">
+                                <div class="icon-box bg-purple"><i class="fa-solid fa-clock"></i></div>
+                                <h3>Timetable Manager</h3>
+                            </div>
+                            <p>Class timetable dekhein aur manage karein</p>
+                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        </div>
+
+                        <!-- Card 8: AI Study Planner -->
+                        <div class="feature-card" onclick="switchTab('planner')">
+                            <div class="card-icon-title">
+                                <div class="icon-box bg-blue"><i class="fa-solid fa-brain"></i></div>
+                                <h3>AI Study Planner</h3>
+                            </div>
+                            <p>Apne subjects ke hisaab se study plan banayein</p>
+                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        </div>
+
+                        <!-- Card 9: CampusSaathi Chatbot -->
+                        <div class="feature-card" onclick="switchTab('chatbot')">
+                            <div class="card-icon-title">
+                                <div class="icon-box bg-indigo"><i class="fa-solid fa-robot"></i></div>
+                                <h3>CampusSaathi Chatbot</h3>
+                            </div>
+                            <p>College-related sawalon ke jawab paayein</p>
+                            <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                        </div>
+
+                    </div>
+
+                    <!-- Bottom Ask CampusSaathi AI Input Bar -->
+                    <div class="bottom-ai-bar">
+                        <h3>🤖 Ask CampusSaathi AI</h3>
+                        <div class="ai-input-wrapper">
+                            <input type="text" id="ai-main-input" placeholder="Type your question here...">
+                            <button onclick="sendAIChatQuery()"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                        <div class="suggestion-chips">
+                            <span>Try asking:</span>
+                            <button onclick="quickAsk('Scholarship eligibility?')">Scholarship eligibility?</button>
+                            <button onclick="quickAsk('Next exam?')">Next exam?</button>
+                            <button onclick="quickAsk('Attendance?')">Attendance?</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- DEDICATED FEATURE PANELS -->
+                <div id="voice-view" class="view-panel">
+                    <h2><i class="fa-solid fa-microphone-lines"></i> Voice Assistant</h2>
+                    <p>Speak your query in Hindi or English:</p>
+                    <div class="tool-card center-card">
+                        <button class="mic-pulse-btn" onclick="toggleVoiceListening()"><i class="fa-solid fa-microphone" id="mic-icon"></i></button>
+                        <h3 id="voice-status-text">Click mic to start listening...</h3>
+                        <p id="voice-transcript" class="transcript-box">"Aapka jawab yahan dikhega..."</p>
+                    </div>
+                </div>
+
+                <div id="scholarship-view" class="view-panel">
+                    <h2><i class="fa-solid fa-award"></i> Scholarship Finder</h2>
+                    <p>Check your scholarship eligibility based on criteria:</p>
+                    <div class="tool-card">
+                        <label>Enter your CGPA:</label>
+                        <input type="number" id="cgpa-input" value="8.5" step="0.1" max="10">
+                        <button class="action-btn" onclick="checkScholarship()">Check Eligibility</button>
+                        <div id="scholarship-result" class="result-box"></div>
+                    </div>
+                </div>
+
+                <div id="attendance-view" class="view-panel">
+                    <h2><i class="fa-solid fa-calculator"></i> Attendance Tracker & Calculator</h2>
+                    <div class="tool-card">
+                        <div class="form-row">
+                            <label>Classes Attended:</label>
+                            <input type="number" id="attended-classes" value="34">
+                        </div>
+                        <div class="form-row">
+                            <label>Total Classes Conducted:</label>
+                            <input type="number" id="total-classes" value="40">
+                        </div>
+                        <button class="action-btn" onclick="calculateAttendance()">Calculate Percentage</button>
+                        <div id="attendance-result" class="result-box"></div>
+                    </div>
+                </div>
+
+                <div id="fees-view" class="view-panel">
+                    <h2><i class="fa-solid fa-wallet"></i> Fees Reminder & Payment</h2>
+                    <div class="tool-card">
+                        <h3>Semester Tuition Fee</h3>
+                        <p>Total Fee: <strong>₹20,000</strong></p>
+                        <p>Paid Amount: <strong style="color: green;">₹12,000</strong></p>
+                        <p>Due Amount: <strong style="color: red;">₹8,000</strong></p>
+                        <button class="action-btn" onclick="alert('Redirecting to secure payment gateway...')">Pay Remaining ₹8,000 Now</button>
+                    </div>
+                </div>
+
+                <div id="exam-view" class="view-panel">
+                    <h2><i class="fa-solid fa-calendar-days"></i> Exam Calendar</h2>
+                    <div class="tool-card">
+                        <ul class="schedule-list">
+                            <li><strong>Physics Exam</strong> - Nov 10, 2026 (10:00 AM) - Hall A</li>
+                            <li><strong>Maths Exam</strong> - Nov 14, 2026 (02:00 PM) - Lab 2</li>
+                            <li><strong>Data Structures</strong> - Nov 18, 2026 (10:00 AM) - Hall B</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="assignment-view" class="view-panel">
+                    <h2><i class="fa-solid fa-file-lines"></i> Assignment Manager</h2>
+                    <div class="tool-card">
+                        <div class="assignment-input-group">
+                            <input type="text" id="new-assignment" placeholder="Enter new assignment title...">
+                            <button class="action-btn" onclick="addAssignment()">Add Task</button>
+                        </div>
+                        <ul id="assignment-list" class="schedule-list">
+                            <li>Maths Assignment (Due in 2 days)</li>
+                            <li>Physics Lab File Submission</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="timetable-view" class="view-panel">
+                    <h2><i class="fa-solid fa-clock"></i> Timetable Manager</h2>
+                    <div class="tool-card">
+                        <table class="styled-table">
+                            <tr><th>Day</th><th>9:00 AM</th><th>11:00 AM</th><th>2:00 PM</th></tr>
+                            <tr><td>Monday</td><td>Physics</td><td>Maths</td><td>CS Lab</td></tr>
+                            <tr><td>Tuesday</td><td>Chemistry</td><td>English</td><td>Sports</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="planner-view" class="view-panel">
+                    <h2><i class="fa-solid fa-brain"></i> AI Study Planner</h2>
+                    <div class="tool-card">
+                        <label>Select Exam Goal:</label>
+                        <select id="exam-goal">
+                            <option>Mid-Term Exams</option>
+                            <option>End-Term Semester Exams</option>
+                        </select>
+                        <button class="action-btn" onclick="generatePlan()">Generate Study Plan</button>
+                        <div id="plan-result" class="result-box"></div>
+                    </div>
+                </div>
+
+                <div id="chatbot-view" class="view-panel">
+                    <h2><i class="fa-solid fa-robot"></i> CampusSaathi Chatbot</h2>
+                    <div class="tool-card chatbot-card">
+                        <div id="chat-messages" class="chat-messages">
+                            <div class="bot-msg">Hello! Main aapka CampusSaathi AI hoon. Bataiye main aapki kya madad karoon?</div>
+                        </div>
+                        <div class="chat-input-box">
+                            <input type="text" id="chat-user-input" placeholder="Type a message...">
+                            <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDEBAR (Quick Stats & Reminders) -->
+            <div class="right-sidebar">
+                
+                <!-- Quick Stats Box -->
+                <div class="stats-box">
+                    <h3><i class="fa-solid fa-chart-pie"></i> Quick Stats</h3>
+                    <div class="stat-item">
+                        <span>Attendance</span>
+                        <strong>85%</strong>
+                    </div>
+                    <div class="stat-item">
+                        <span>Fees Paid</span>
+                        <strong>₹12,000 / ₹20,000</strong>
+                    </div>
+                    <div class="stat-item">
+                        <span>Assignments</span>
+                        <strong style="color: orange;">3 Pending</strong>
+                    </div>
+                    <div class="stat-item">
+                        <span>Upcoming Exams</span>
+                        <strong>2</strong>
+                    </div>
+                </div>
+
+                <!-- Today's Reminder Box -->
+                <div class="reminder-box">
+                    <h3><i class="fa-solid fa-bell"></i> Today's Reminder</h3>
+                    <div class="reminder-item">
+                        <span class="dot green"></span>
+                        <div>
+                            <strong>Maths Assignment</strong>
+                            <p>Due in 2 days</p>
+                        </div>
+                    </div>
+                    <div class="reminder-item">
+                        <span class="dot blue"></span>
+                        <div>
+                            <strong>Physics Exam</strong>
+                            <p>Check your exam schedule</p>
+                        </div>
+                    </div>
+                    <div class="reminder-item">
+                        <span class="dot red"></span>
+                        <div>
+                            <strong>Fee Payment</strong>
+                            <p>Check your due date</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Motivation Box -->
+                <div class="motivation-box">
+                    <h4>Small steps every day lead to big dreams! 💙</h4>
+                    <div class="mountain-graphic"><i class="fa-solid fa-mountain"></i></div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer Copyright -->
+    <footer>
+        <p>© 2026 CampusSaathi AI. Made with ❤️ for Students</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
