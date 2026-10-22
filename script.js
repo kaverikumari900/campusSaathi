@@ -132,3 +132,6 @@ function sendChatMessage() {
         }, 1000);
     }
 }
+document.getElementById('menu-toggle').addEventListener('click', function() {
+  document.querySelector('.sidebar').classList.toggle('active');
+});
